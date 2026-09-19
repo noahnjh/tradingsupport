@@ -28,6 +28,9 @@
   --grid: rgba(48, 92, 63, .06);
 }
 
+:root[data-theme="light"] .mood { background: #e1e5e3; }
+:root[data-theme="light"] .mood[aria-pressed="true"] { background: #f3e5d0; }
+
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 280px; color: var(--ink); background: var(--base); font-family: "Manrope", sans-serif; }
 body::before { content: ""; position: fixed; inset: 0; z-index: -1; opacity: .25; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 34px 34px; mask-image: linear-gradient(to bottom, black, transparent 85%); }
@@ -80,8 +83,21 @@ h2 { margin-bottom: 0; font-size: 17px; letter-spacing: -.02em; }
 .mood-grid.compact .mood { min-height: 75px; }
 .mood:hover { border-color: #597060; transform: translateY(-2px); }
 .mood[aria-pressed="true"] { color: var(--accent-soft); border-color: var(--accent); background: rgba(229, 173, 98, .1); }
-.mood-face { display: grid; place-items: center; width: 32px; height: 32px; color: var(--accent); font-size: 27px; line-height: 1; }
+.mood-face { position: relative; display: block; width: 32px; height: 32px; border: 2px solid #a86d3b; border-radius: 50%; background: #f0c27a; box-shadow: inset -2px -2px 0 rgba(115, 66, 33, .12); }
+.mood-face::before { content: ""; position: absolute; top: 9px; left: 8px; width: 3px; height: 5px; border-radius: 3px; background: #3e3933; box-shadow: 10px 0 #3e3933; }
+.mood-face::after { content: ""; position: absolute; left: 9px; bottom: 6px; width: 10px; height: 5px; border-bottom: 2px solid #3e3933; border-radius: 0 0 10px 10px; }
+.face-calm, .face-patient { background: #f2d18f; }
+.face-confident, .face-energized { background: #f3b66e; }
+.face-restless::after, .face-anxious::after { bottom: 7px; border-bottom: 0; border-top: 2px solid #3e3933; border-radius: 10px 10px 0 0; }
+.face-uncertain::after { width: 4px; height: 4px; left: 12px; border: 0; border-radius: 50%; background: #3e3933; }
+.face-frustrated::after { transform: rotate(8deg); border-radius: 0; }
+.face-greedy::after { width: 13px; left: 8px; }
+.mood[aria-pressed="true"] .mood-face { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(229, 173, 98, .14); }
 .mood span:last-child { font-size: 11px; font-weight: 600; }
+.emotion-reminder { margin: 9px 0 0; padding: 9px 10px; color: #a96731; border-left: 3px solid var(--accent); background: rgba(229, 173, 98, .1); font-size: 11px; line-height: 1.4; }
+.session-actions { display: grid; gap: 8px; margin: -3px 0 28px; }
+.break-button { width: 100%; padding: 12px 16px; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; font-size: 13px; font-weight: 700; transition: .2s ease; }
+.break-button:hover, .break-button[aria-pressed="true"] { color: var(--ink); border-color: var(--green); background: rgba(147, 201, 166, .1); }
 .trade-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .trade-button { width: 100%; gap: 9px; padding: 12px 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; background: transparent; text-align: left; cursor: pointer; transition: .2s ease; }
 .trade-button:hover { border-color: #597060; }
@@ -101,7 +117,6 @@ textarea::placeholder { color: var(--dim); }
 .primary-button { justify-content: space-between; width: 100%; padding: 15px 16px; border: 1px solid var(--accent); border-radius: 8px; color: var(--base); background: var(--accent); font-size: 14px; font-weight: 800; cursor: pointer; transition: .2s ease; }
 .primary-button:disabled { cursor: not-allowed; opacity: .35; }
 .primary-button:not(:disabled):hover { background: var(--accent-soft); box-shadow: 0 8px 24px rgba(229, 173, 98, .16); transform: translateY(-1px); }
-.primary-button span:last-child { font-size: 20px; font-weight: 400; line-height: 10px; }
 .footer-note { min-height: 15px; margin: 10px 0 0; color: var(--dim); text-align: center; font-family: "DM Mono", monospace; font-size: 10px; }
 .footer-note.ready { color: var(--green); }
-@media (max-width: 360px) { .shell { padding: 20px 15px 24px; } .mood { min-height: 75px; } .mood span:last-child { font-size: 10px; } .mood-face { font-size: 24px; } }
+@media (max-width: 360px) { .shell { padding: 20px 15px 24px; } .mood { min-height: 75px; } .mood span:last-child { font-size: 10px; } .mood-face { width: 28px; height: 28px; } .mood-face::before { top: 7px; left: 6px; box-shadow: 9px 0 #3e3933; } .mood-face::after { left: 7px; bottom: 5px; } }
