@@ -55,7 +55,7 @@ h2 { margin-bottom: 0; font-size: 17px; letter-spacing: -.02em; }
 .live-dot i { display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(147, 201, 166, .1); }
 .mono { font-family: "DM Mono", monospace; font-size: 10px; }
 .meta-divider { width: 3px; height: 3px; border-radius: 50%; background: var(--dim); }
-.session-options { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 15px; }
+.session-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 15px; }
 .session-option { padding: 9px 8px; color: var(--muted); border: 1px solid var(--line); border-radius: 7px; background: transparent; cursor: pointer; font-size: 12px; font-weight: 700; transition: .2s ease; }
 .session-option span { margin-right: 5px; color: var(--accent); }
 .session-option[aria-pressed="true"] { color: var(--ink); border-color: var(--accent); background: rgba(229, 173, 98, .12); }
@@ -81,21 +81,23 @@ h2 { margin-bottom: 0; font-size: 17px; letter-spacing: -.02em; }
 .mood-grid.compact .mood { min-height: 75px; }
 .mood:hover { border-color: #597060; transform: translateY(-2px); }
 .mood[aria-pressed="true"] { color: var(--accent-soft); border-color: var(--accent); background: rgba(229, 173, 98, .1); }
-.mood-face { position: relative; display: block; width: 32px; height: 32px; border: 2px solid #a86d3b; border-radius: 50%; background: #f0c27a; box-shadow: inset -2px -2px 0 rgba(115, 66, 33, .12); }
-.mood-face::before { content: ""; position: absolute; top: 9px; left: 8px; width: 3px; height: 5px; border-radius: 3px; background: #3e3933; box-shadow: 10px 0 #3e3933; }
-.mood-face::after { content: ""; position: absolute; left: 9px; bottom: 6px; width: 10px; height: 5px; border-bottom: 2px solid #3e3933; border-radius: 0 0 10px 10px; }
-.face-calm, .face-patient { background: #f2d18f; }
-.face-confident, .face-happy { background: #f3b66e; }
-.face-restless::after, .face-anxious::after { bottom: 7px; border-bottom: 0; border-top: 2px solid #3e3933; border-radius: 10px 10px 0 0; }
-.face-uncertain::after { width: 4px; height: 4px; left: 12px; border: 0; border-radius: 50%; background: #3e3933; }
-.face-frustrated::after { transform: rotate(8deg); border-radius: 0; }
-.face-greedy::after { width: 13px; left: 8px; }
+.mood-face { position: relative; display: block; width: 32px; height: 32px; overflow: hidden; border: 2px solid #c2884f; border-radius: 9px 15px 8px 14px; background: conic-gradient(from 210deg, #f0c27a, #d98553, #f2d18f, #f0c27a); box-shadow: inset -3px -3px 0 rgba(115, 66, 33, .12); transform: rotate(-8deg); }
+.mood-face::before { content: ""; position: absolute; top: 7px; left: 7px; width: 14px; height: 14px; border: 2px solid rgba(62, 57, 51, .65); border-radius: 50%; }
+.mood-face::after { content: ""; position: absolute; right: 5px; bottom: 6px; width: 8px; height: 2px; border-radius: 2px; background: rgba(62, 57, 51, .7); transform: rotate(-28deg); }
+.face-calm, .face-patient { border-radius: 50% 8px 50% 10px; background: conic-gradient(#f2d18f, #b8d6c0, #f2d18f); transform: rotate(12deg); }
+.face-confident, .face-happy { border-radius: 50% 11px 10px 11px; background: conic-gradient(#f3b66e, #f6d778, #d98553); transform: rotate(5deg); }
+.face-restless, .face-anxious { border-radius: 14px 5px 14px 5px; background: repeating-linear-gradient(135deg, #d98553 0 4px, #f0c27a 4px 8px); transform: rotate(-15deg); }
+.face-uncertain { border-radius: 8px 50% 8px 50%; background: conic-gradient(#a9c5d6, #f0c27a, #a9c5d6); transform: rotate(18deg); }
+.face-frustrated { border-radius: 4px 15px 4px 15px; background: repeating-linear-gradient(45deg, #d98553 0 3px, #e8a36e 3px 6px); transform: rotate(-5deg); }
+.face-greedy { border-radius: 50% 50% 8px 8px; background: conic-gradient(#f0c27a, #d4a74f, #f0c27a); transform: rotate(8deg); }
 .mood[aria-pressed="true"] .mood-face { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(229, 173, 98, .14); }
 .mood span:last-child { font-size: 11px; font-weight: 600; }
 .emotion-reminder { margin: 9px 0 0; padding: 9px 10px; color: #a96731; border-left: 3px solid var(--accent); background: rgba(229, 173, 98, .1); font-size: 11px; line-height: 1.4; }
 .session-actions { display: grid; gap: 8px; margin: -3px 0 28px; }
 .break-button { display: flex; justify-content: center; width: 100%; padding: 15px 16px; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 800; transition: .2s ease; }
 .break-button:hover, .break-button[aria-pressed="true"] { color: var(--ink); border-color: var(--green); background: rgba(147, 201, 166, .1); }
+.complete-button { display: flex; justify-content: center; width: 100%; padding: 12px 16px; color: var(--green); border: 1px solid var(--green); border-radius: 8px; background: transparent; cursor: pointer; font-size: 13px; font-weight: 800; transition: .2s ease; }
+.complete-button:hover { background: rgba(147, 201, 166, .1); }
 .last-trade-reminder { margin: 10px 0 0; padding: 9px 10px; color: var(--muted); border-left: 3px solid var(--green); background: rgba(147, 201, 166, .1); font-size: 11px; line-height: 1.4; }
 .trade-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .trade-button { width: 100%; gap: 9px; padding: 12px 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; background: transparent; text-align: left; cursor: pointer; transition: .2s ease; }
@@ -118,4 +120,4 @@ textarea::placeholder { color: var(--dim); }
 .primary-button:not(:disabled):hover { background: var(--accent-soft); box-shadow: 0 8px 24px rgba(229, 173, 98, .16); transform: translateY(-1px); }
 .footer-note { min-height: 15px; margin: 10px 0 0; color: var(--dim); text-align: center; font-family: "DM Mono", monospace; font-size: 10px; }
 .footer-note.ready { color: var(--green); }
-@media (max-width: 360px) { .shell { padding: 20px 15px 24px; } .mood { min-height: 75px; } .mood span:last-child { font-size: 10px; } .mood-face { width: 28px; height: 28px; } .mood-face::before { top: 7px; left: 6px; box-shadow: 9px 0 #3e3933; } .mood-face::after { left: 7px; bottom: 5px; } }
+@media (max-width: 360px) { .shell { padding: 20px 15px 24px; } .mood { min-height: 75px; } .mood span:last-child { font-size: 10px; } .mood-face { width: 28px; height: 28px; } }

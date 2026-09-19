@@ -34,6 +34,7 @@
         </div>
         <div class="session-options" role="group" aria-label="Choose your trading session">
           <button class="session-option" type="button" data-session="Asia" aria-pressed="false"><span>☾</span> Asia</button>
+          <button class="session-option" type="button" data-session="London" aria-pressed="false"><span>◐</span> London</button>
           <button class="session-option" type="button" data-session="New York" aria-pressed="false"><span>☀</span> New York</button>
         </div>
       </section>
@@ -69,9 +70,10 @@
       <section class="session-actions" aria-label="Session actions">
         <button class="primary-button" id="startButton" type="button" disabled>Start session</button>
         <button class="break-button" id="breakButton" type="button">Taking a break today</button>
+        <button class="complete-button" id="completeButton" type="button" hidden>Session completed</button>
       </section>
 
-      <section class="trades" aria-labelledby="tradesHeading">
+      <section class="trades" id="tradeCheckins" aria-labelledby="tradesHeading" hidden>
         <div class="section-label">
           <div><h2 id="tradesHeading">Trade check-ins</h2><p>Notice what changes once you are in.</p></div>
           <span class="step-label">02 <span>/ 03</span></span>
@@ -93,12 +95,11 @@
         </div>
       </section>
 
-      <section class="feelings after-session" aria-labelledby="afterSessionHeading">
+      <section class="feelings after-session" id="afterSession" aria-labelledby="afterSessionHeading" hidden>
         <div class="section-label">
           <div><h2 id="afterSessionHeading">How are you feeling after the session?</h2><p>Take a moment to notice what the day left with you.</p></div>
         </div>
         <div class="mood-grid" id="afterMoodGrid" role="group" aria-label="Select one or more emotional states after the session"></div>
-        <p class="emotion-reminder" id="afterReminder" hidden></p>
       </section>
 
       <section class="note-section" aria-labelledby="noteHeading">

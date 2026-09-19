@@ -5,6 +5,9 @@ const tradeButtons = document.querySelectorAll(".trade-button");
 const themeButton = document.querySelector("#themeButton");
 const startButton = document.querySelector("#startButton");
 const breakButton = document.querySelector("#breakButton");
+const completeButton = document.querySelector("#completeButton");
+const tradeCheckins = document.querySelector("#tradeCheckins");
+const afterSession = document.querySelector("#afterSession");
 const routineCount = document.querySelector("#routineCount");
 const statusMessage = document.querySelector("#statusMessage");
 const noteInput = document.querySelector("#noteInput");
@@ -57,6 +60,9 @@ function render() {
   themeButton.textContent = state.theme === "dark" ? "☼" : "☾";
   themeButton.setAttribute("aria-label", state.theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
   sessionHeading.textContent = state.session || "Choose a session";
+  tradeCheckins.hidden = !state.sessionStarted;
+  completeButton.hidden = !state.sessionStarted;
+  afterSession.hidden = !state.sessionCompleted;
   noteInput.value = state.note || "";
   const completedChecks = state.checks.filter(Boolean).length;
   routineCount.textContent = `${completedChecks} / 3`;
@@ -69,9 +75,9 @@ function render() {
   statusMessage.classList.toggle("ready", readyToStart);
   moodGroups.forEach((group) => {
     const reminder = document.querySelector(`#${group}Reminder`);
-    const needsReminder = state.moods[group].some((emotion) => riskyEmotions.includes(emotion));
+    const needsReminder = group !== "after" && state.moods[group].some((emotion) => riskyEmotions.includes(emotion));
     reminder.hidden = !needsReminder;
-    reminder.textContent = group === "arrival" || group === "after" ? "A gentle check-in: it is okay not to trade today. Protecting your state is part of the process." : "Whatever you're feeling is okay. Notice it, take a breath, and stay connected to your plan.";
+    reminder.textContent = group === "arrival" ? "A gentle check-in: it is okay not to trade today. Protecting your state is part of the process." : "Whatever you're feeling is okay. Notice it, take a breath, and stay connected to your plan.";
   });
 }
 
@@ -117,15 +123,24 @@ noteInput.addEventListener("input", () => {
 
 startButton.addEventListener("click", () => {
   state.sessionStarted = true;
+  state.sessionCompleted = false;
   state.takingBreak = false;
   saveState();
   render();
   startButton.disabled = true;
 });
 
+completeButton.addEventListener("click", () => {
+  state.sessionCompleted = !state.sessionCompleted;
+  saveState();
+  render();
+});
+
 breakButton.addEventListener("click", () => {
   state.takingBreak = !state.takingBreak;
   state.sessionStarted = false;
+  state.sessionCompleted = false;
+  state.sessionCompleted = false;
   saveState();
   render();
 });
