@@ -81,21 +81,34 @@ h2 { margin-bottom: 0; font-size: 17px; letter-spacing: -.02em; }
 .mood-grid.compact .mood { min-height: 75px; }
 .mood:hover { border-color: #597060; transform: translateY(-2px); }
 .mood[aria-pressed="true"] { color: var(--accent-soft); border-color: var(--accent); background: rgba(229, 173, 98, .1); }
-.mood-face { position: relative; display: block; width: 32px; height: 32px; border: 2px solid #c2884f; border-radius: 6px 15px 6px 15px; background: linear-gradient(135deg, #f0c27a 0 45%, #d98553 45% 58%, #f2d18f 58%); box-shadow: inset -3px -3px 0 rgba(115, 66, 33, .12); transform: rotate(45deg); }
-.mood-face::before { content: ""; position: absolute; top: 13px; left: 5px; width: 18px; height: 3px; border-radius: 2px; background: rgba(62, 57, 51, .7); transform: rotate(-45deg); }
-.mood-face::after { content: ""; position: absolute; right: 5px; top: 5px; width: 5px; height: 5px; border-radius: 50%; background: rgba(62, 57, 51, .7); }
-.face-calm, .face-patient { border-radius: 50%; background: repeating-linear-gradient(0deg, #b8d6c0 0 3px, #f2d18f 3px 6px); transform: rotate(45deg); }
-.face-confident, .face-happy { background: linear-gradient(135deg, #f6d778 0 40%, #d98553 40% 58%, #f3b66e 58%); }
-.face-restless, .face-anxious { border-radius: 3px 16px 3px 16px; background: repeating-linear-gradient(135deg, #d98553 0 4px, #f0c27a 4px 8px); transform: rotate(45deg) skew(-6deg); }
-.face-uncertain { border-radius: 50% 5px; background: linear-gradient(90deg, #a9c5d6 0 30%, #f0c27a 30% 70%, #a9c5d6 70%); }
-.face-frustrated { border-radius: 2px 13px; background: repeating-linear-gradient(45deg, #d98553 0 3px, #e8a36e 3px 6px); }
-.face-greedy { border-radius: 50% 50% 5px 5px; background: conic-gradient(#d4a74f, #f0c27a, #d4a74f); }
+.mood-face { position: relative; display: block; width: 32px; height: 32px; border: 1px solid #71907d; border-radius: 10px; background: #dbe8dd; box-shadow: 2px 2px 0 rgba(83, 112, 92, .18); }
+.mood-face::before { content: ""; position: absolute; top: 9px; left: 7px; width: 4px; height: 4px; border-radius: 50%; background: #365044; box-shadow: 12px 0 #365044; }
+.mood-face::after { content: ""; position: absolute; left: 10px; bottom: 7px; width: 10px; height: 4px; border-bottom: 2px solid #365044; border-radius: 50%; }
+.face-calm, .face-patient { background: #cde6d2; }
+.face-confident, .face-happy { background: #f0d79b; }
+.face-restless, .face-anxious { background: #f2c4a5; }
+.face-uncertain { background: #c8dce8; }
+.face-frustrated { background: #e9b4a4; }
+.face-greedy { background: #e6c77f; }
+.face-restless::after, .face-anxious::after { bottom: 8px; border-bottom: 0; border-top: 2px solid #365044; border-radius: 0; }
+.face-uncertain::after { width: 4px; left: 13px; border-bottom: 0; border-right: 2px solid #365044; border-radius: 0; }
+.face-frustrated::after { transform: rotate(180deg); }
+.face-greedy::after { width: 6px; left: 12px; border-radius: 0; }
 .mood[aria-pressed="true"] .mood-face { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(229, 173, 98, .14); }
 .mood span:last-child { font-size: 11px; font-weight: 600; }
 .emotion-reminder { margin: 9px 0 0; padding: 9px 10px; color: #a96731; border-left: 3px solid var(--accent); background: rgba(229, 173, 98, .1); font-size: 11px; line-height: 1.4; }
 .session-actions { display: grid; gap: 8px; margin: -3px 0 28px; }
 .break-button { display: flex; justify-content: center; width: 100%; padding: 15px 16px; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 800; transition: .2s ease; }
 .break-button:hover, .break-button[aria-pressed="true"] { color: var(--ink); border-color: var(--green); background: rgba(147, 201, 166, .1); }
+.break-suggestions { padding: 14px 0 2px; animation: suggestions-in .25s ease both; }
+.suggestion-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 9px; }
+.suggestion-heading span { color: var(--ink); font-size: 12px; font-weight: 700; }
+.suggestion-heading small { color: var(--dim); font-size: 10px; }
+.suggestion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.suggestion-button { display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 8px 9px; color: var(--muted); border: 1px solid var(--line); border-radius: 7px; background: var(--panel-deep); text-align: left; cursor: pointer; font-size: 11px; font-weight: 700; transition: .2s ease; }
+.suggestion-button span { display: grid; place-items: center; width: 20px; height: 20px; color: var(--green); border: 1px solid currentColor; border-radius: 5px; font-family: "DM Mono", monospace; font-size: 12px; }
+.suggestion-button:hover, .suggestion-button[aria-pressed="true"] { color: var(--ink); border-color: var(--green); background: rgba(147, 201, 166, .1); }
+@keyframes suggestions-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 .complete-button { display: flex; justify-content: center; width: 100%; padding: 12px 16px; color: var(--green); border: 1px solid var(--green); border-radius: 8px; background: transparent; cursor: pointer; font-size: 13px; font-weight: 800; transition: .2s ease; }
 .complete-button:hover { background: rgba(147, 201, 166, .1); }
 .last-trade-reminder { margin: 10px 0 0; padding: 9px 10px; color: var(--muted); border-left: 3px solid var(--green); background: rgba(147, 201, 166, .1); font-size: 11px; line-height: 1.4; }

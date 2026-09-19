@@ -70,6 +70,24 @@
       <section class="session-actions" aria-label="Session actions">
         <button class="primary-button" id="startButton" type="button" disabled>Start session</button>
         <button class="break-button" id="breakButton" type="button">Taking a break today</button>
+        <div class="break-suggestions" id="breakSuggestions" hidden>
+          <div class="suggestion-heading">
+            <span>What would feel good right now?</span>
+            <small>Choose one, or just rest.</small>
+          </div>
+          <div class="suggestion-grid" role="group" aria-label="Break suggestions">
+            <button class="suggestion-button" type="button" data-suggestion="Take a walk"><span aria-hidden="true">↗</span>Take a walk</button>
+            <button class="suggestion-button" type="button" data-suggestion="Grab some food"><span aria-hidden="true">+</span>Grab some food</button>
+            <button class="suggestion-button" type="button" data-suggestion="Reach out to a friend"><span aria-hidden="true">~</span>Reach out to a friend</button>
+            <button class="suggestion-button" type="button" data-suggestion="Play an instrument"><span aria-hidden="true">♪</span>Play an instrument</button>
+            <button class="suggestion-button" type="button" data-suggestion="Stretch for a few minutes"><span aria-hidden="true">↕</span>Stretch for a few minutes</button>
+            <button class="suggestion-button" type="button" data-suggestion="Take a few deep breaths"><span aria-hidden="true">◌</span>Take a few deep breaths</button>
+            <button class="suggestion-button" type="button" data-suggestion="Drink some water"><span aria-hidden="true">⌇</span>Drink some water</button>
+            <button class="suggestion-button" type="button" data-suggestion="Write in a journal"><span aria-hidden="true">✎</span>Write in a journal</button>
+            <button class="suggestion-button" type="button" data-suggestion="Read something enjoyable"><span aria-hidden="true">▤</span>Read something enjoyable</button>
+            <button class="suggestion-button" type="button" data-suggestion="Tidy one small space"><span aria-hidden="true">□</span>Tidy one small space</button>
+          </div>
+        </div>
         <button class="complete-button" id="completeButton" type="button" hidden>Session completed</button>
       </section>
 
