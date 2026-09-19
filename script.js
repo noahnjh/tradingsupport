@@ -5,7 +5,6 @@ const tradeButtons = document.querySelectorAll(".trade-button");
 const themeButton = document.querySelector("#themeButton");
 const startButton = document.querySelector("#startButton");
 const breakButton = document.querySelector("#breakButton");
-const progressBar = document.querySelector("#progressBar");
 const routineCount = document.querySelector("#routineCount");
 const statusMessage = document.querySelector("#statusMessage");
 const noteInput = document.querySelector("#noteInput");
@@ -19,7 +18,7 @@ const emotionOptions = [
 
 state.checks = state.checks || [false, false];
 state.checks[2] = Boolean(state.checks[2]);
-state.session = state.session || "New York";
+state.session = state.session || "Asia";
 state.moods = state.moods || {};
 moodGroups.forEach((group) => {
   state.moods[group] = Array.isArray(state.moods[group]) ? state.moods[group] : state.moods[group] ? [state.moods[group]] : [];
@@ -57,14 +56,13 @@ function render() {
   noteInput.value = state.note || "";
   const completedChecks = state.checks.filter(Boolean).length;
   routineCount.textContent = `${completedChecks} / 3`;
-  const progress = 18 + (completedChecks * 15) + (state.moods.arrival ? 10 : 0) + (state.activeTrade ? 10 : 0);
-  progressBar.style.width = `${Math.min(progress, 100)}%`;
-  startButton.disabled = completedChecks !== 3;
+  const readyToStart = completedChecks === 3 && state.moods.arrival.length > 0;
+  startButton.disabled = !readyToStart || state.sessionStarted;
   startButton.textContent = state.sessionStarted ? "Session in progress" : "Start session";
   breakButton.textContent = state.takingBreak ? "Break noted for today" : "Taking a break today";
   breakButton.setAttribute("aria-pressed", String(Boolean(state.takingBreak)));
-  statusMessage.textContent = state.takingBreak ? "Good call. Rest is part of the process." : state.sessionStarted ? "Stay with your plan. Check back in when you are done." : completedChecks === 3 ? (state.moods.arrival.length ? `${state.moods.arrival.join(" + ")} noted. You are ready.` : "Checks complete. Add a mood when you are ready.") : "Complete the three checks to begin.";
-  statusMessage.classList.toggle("ready", completedChecks === 3);
+  statusMessage.textContent = state.takingBreak ? "Good call. Rest is part of the process." : state.sessionStarted ? "Stay with your plan. Check back in when you are done." : readyToStart ? `${state.moods.arrival.join(" + ")} noted. You are ready.` : completedChecks === 3 ? "Select at least one arrival emotion to begin." : "Complete the three checks to begin.";
+  statusMessage.classList.toggle("ready", readyToStart);
   moodGroups.forEach((group) => {
     const reminder = document.querySelector(`#${group}Reminder`);
     const needsReminder = state.moods[group].some((emotion) => riskyEmotions.includes(emotion));
@@ -131,7 +129,7 @@ breakButton.addEventListener("click", () => {
 document.querySelector("#resetButton").addEventListener("click", () => {
   localStorage.removeItem("session-check-in");
   state.checks = [false, false, false];
-  state.session = "New York";
+  state.session = "Asia";
   state.moods = { arrival: [], trade1: [], trade2: [] };
   state.trades = {};
   state.activeTrade = "";
