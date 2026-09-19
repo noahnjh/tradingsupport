@@ -15,6 +15,10 @@ const routineCount = document.querySelector("#routineCount");
 const statusMessage = document.querySelector("#statusMessage");
 const noteInput = document.querySelector("#noteInput");
 const sessionHeading = document.querySelector("#sessionHeading");
+const reportButton = document.querySelector("#reportButton");
+const reportResult = document.querySelector("#reportResult");
+const reportImage = document.querySelector("#reportImage");
+const reportStatus = document.querySelector("#reportStatus");
 const moodGroups = ["arrival", "trade1", "trade2", "after"];
 const riskyEmotions = ["Restless", "Uncertain", "Anxious", "Frustrated", "Greedy"];
 const emotionOptions = [
@@ -157,6 +161,104 @@ suggestionButtons.forEach((button) => button.addEventListener("click", () => {
   saveState();
   render();
 }));
+
+function drawReportText(context, text, x, y, maxWidth, lineHeight) {
+  const words = String(text).split(" ");
+  let line = "";
+  const lines = [];
+  words.forEach((word) => {
+    const nextLine = line ? `${line} ${word}` : word;
+    if (context.measureText(nextLine).width > maxWidth && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = nextLine;
+    }
+  });
+  if (line) lines.push(line);
+  lines.forEach((currentLine, index) => context.fillText(currentLine, x, y + index * lineHeight));
+  return y + Math.max(lines.length, 1) * lineHeight;
+}
+
+function reportValue(value) {
+  return value?.length ? value.join(" + ") : "None recorded";
+}
+
+function createReportImage() {
+  const canvas = document.createElement("canvas");
+  const width = 1200;
+  const padding = 78;
+  const lineHeight = 32;
+  const sections = [
+    ["Trading session", state.session || "Not selected"],
+    ["Arrival emotions", reportValue(state.moods.arrival)],
+    ["Before you trade", `${state.checks.filter(Boolean).length} of 3 steps complete`],
+    ["Trade 1 emotions", reportValue(state.moods.trade1)],
+    ["Trade 2 emotions", reportValue(state.moods.trade2)],
+    ["After-session emotions", reportValue(state.moods.after)],
+    ["Today’s plan", state.takingBreak ? `Taking a break${state.breakSuggestion ? ` - ${state.breakSuggestion}` : ""}` : state.sessionStarted ? "Session in progress" : state.sessionCompleted ? "Session completed" : "Not started"],
+    ["Notes", state.note?.trim() || "No notes added"]
+  ];
+  const canvasHeight = 320 + sections.length * 88;
+  canvas.width = width;
+  canvas.height = canvasHeight;
+  const context = canvas.getContext("2d");
+  const isLight = state.theme === "light";
+  const colors = isLight ? { background: "#f4f7f3", ink: "#18221e", muted: "#64736a", accent: "#b36f25", line: "#d5ded8", panel: "#e8eeea" } : { background: "#131b19", ink: "#e8eee8", muted: "#8f9b92", accent: "#e5ad62", line: "#283530", panel: "#17211e" };
+  context.fillStyle = colors.background;
+  context.fillRect(0, 0, width, canvasHeight);
+  context.fillStyle = colors.panel;
+  context.fillRect(padding, 54, width - padding * 2, canvasHeight - 108);
+  context.fillStyle = colors.accent;
+  context.fillRect(padding, 54, 12, 104);
+  context.font = "700 22px Manrope, sans-serif";
+  context.fillText("TRADING COMPANION", padding + 38, 102);
+  context.font = "800 48px Manrope, sans-serif";
+  context.fillStyle = colors.ink;
+  context.fillText("Session check-in", padding + 38, 154);
+  context.font = "500 18px DM Mono, monospace";
+  context.fillStyle = colors.muted;
+  context.fillText(new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }), padding + 38, 194);
+  let y = 270;
+  sections.forEach(([label, value]) => {
+    context.strokeStyle = colors.line;
+    context.beginPath();
+    context.moveTo(padding + 38, y - 22);
+    context.lineTo(width - padding - 38, y - 22);
+    context.stroke();
+    context.font = "700 17px Manrope, sans-serif";
+    context.fillStyle = colors.accent;
+    context.fillText(label.toUpperCase(), padding + 38, y + 10);
+    context.font = "500 22px Manrope, sans-serif";
+    context.fillStyle = colors.ink;
+    y = drawReportText(context, value, padding + 38, y + 46, width - padding * 2 - 76, lineHeight) + 34;
+  });
+  return canvas;
+}
+
+reportButton.addEventListener("click", () => {
+  reportButton.disabled = true;
+  reportStatus.textContent = "Creating your report...";
+  const canvas = createReportImage();
+  canvas.toBlob(async (blob) => {
+    if (!blob) {
+      reportStatus.textContent = "The report could not be created. Please try again.";
+      reportButton.disabled = false;
+      return;
+    }
+    reportImage.src = URL.createObjectURL(blob);
+    reportResult.hidden = false;
+    try {
+      if (!navigator.clipboard || !window.ClipboardItem) throw new Error("Clipboard image copy is unavailable");
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+      reportStatus.textContent = "Report created and copied to your clipboard.";
+    } catch (error) {
+      reportStatus.textContent = "Report created. Clipboard image copy is unavailable in this browser.";
+    } finally {
+      reportButton.disabled = false;
+    }
+  }, "image/png");
+});
 
 function resetSession() {
   localStorage.removeItem("session-check-in");
