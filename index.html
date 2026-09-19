@@ -18,7 +18,10 @@
           <p class="eyebrow">Trading companion</p>
           <h1>Session check-in</h1>
         </div>
-        <button class="icon-button" id="resetButton" type="button" aria-label="Reset session" title="Reset session">↺</button>
+        <div class="topbar-actions">
+          <button class="icon-button" id="themeButton" type="button" aria-label="Switch to light mode" title="Switch theme">☼</button>
+          <button class="icon-button" id="resetButton" type="button" aria-label="Reset session" title="Reset session">↺</button>
+        </div>
       </header>
 
       <section class="session-card" aria-labelledby="sessionHeading">
@@ -30,11 +33,15 @@
           <span class="live-dot"><i></i> Active</span>
         </div>
         <div class="session-meta">
-          <span>Tue, Sep 19</span>
+          <span id="sessionDate">Tue, Sep 19</span>
           <span class="meta-divider"></span>
-          <span class="mono">09:30 — 11:30 ET</span>
+          <span class="mono" id="sessionTime">09:30 — 11:30 ET</span>
         </div>
         <div class="session-progress" aria-label="Session progress"><span id="progressBar"></span></div>
+        <div class="session-options" role="group" aria-label="Choose your trading session">
+          <button class="session-option" type="button" data-session="Asia" aria-pressed="false"><span>☾</span> Asia</button>
+          <button class="session-option" type="button" data-session="New York" aria-pressed="true"><span>☀</span> New York</button>
+        </div>
       </section>
 
       <section class="checklist" aria-labelledby="routineHeading">
@@ -61,11 +68,42 @@
           <span class="step-label">01 <span>/ 03</span></span>
         </div>
         <div class="mood-grid" role="group" aria-label="Select your emotional state before trading">
-          <button class="mood" type="button" data-mood="Focused" aria-label="Focused"><span class="mood-face">◉</span><span>Focused</span></button>
-          <button class="mood" type="button" data-mood="Calm" aria-label="Calm"><span class="mood-face">◌</span><span>Calm</span></button>
-          <button class="mood" type="button" data-mood="Restless" aria-label="Restless"><span class="mood-face">◒</span><span>Restless</span></button>
-          <button class="mood" type="button" data-mood="Uncertain" aria-label="Uncertain"><span class="mood-face">?</span><span>Uncertain</span></button>
-          <button class="mood" type="button" data-mood="Energized" aria-label="Energized"><span class="mood-face">✦</span><span>Energized</span></button>
+          <button class="mood" type="button" data-mood-group="arrival" data-mood="Focused" aria-label="Focused"><span class="mood-face">🙂</span><span>Focused</span></button>
+          <button class="mood" type="button" data-mood-group="arrival" data-mood="Calm" aria-label="Calm"><span class="mood-face">😌</span><span>Calm</span></button>
+          <button class="mood" type="button" data-mood-group="arrival" data-mood="Restless" aria-label="Restless"><span class="mood-face">😬</span><span>Restless</span></button>
+          <button class="mood" type="button" data-mood-group="arrival" data-mood="Uncertain" aria-label="Uncertain"><span class="mood-face">🤔</span><span>Uncertain</span></button>
+          <button class="mood" type="button" data-mood-group="arrival" data-mood="Energized" aria-label="Energized"><span class="mood-face">🤩</span><span>Energized</span></button>
+        </div>
+      </section>
+
+      <section class="trades" aria-labelledby="tradesHeading">
+        <div class="section-label">
+          <div><h2 id="tradesHeading">Trade check-ins</h2><p>Notice what changes once you are in.</p></div>
+          <span class="step-label">02 <span>/ 03</span></span>
+        </div>
+        <div class="trade-buttons" role="group" aria-label="Choose a trade to check in on">
+          <button class="trade-button" type="button" data-trade="trade1" aria-pressed="false"><span class="trade-number">01</span><span><strong>Trade 1</strong><small>During trade</small></span><span class="row-arrow" aria-hidden="true">›</span></button>
+          <button class="trade-button" type="button" data-trade="trade2" aria-pressed="false"><span class="trade-number">02</span><span><strong>Trade 2</strong><small>During trade</small></span><span class="row-arrow" aria-hidden="true">›</span></button>
+        </div>
+        <div class="trade-mood-panel" id="trade1Panel" hidden>
+          <div class="trade-mood-heading"><h3>How are you feeling in Trade 1?</h3><span>in the moment</span></div>
+          <div class="mood-grid compact" role="group" aria-label="Select your emotional state during Trade 1">
+            <button class="mood" type="button" data-mood-group="trade1" data-mood="Confident" aria-label="Confident"><span class="mood-face">😎</span><span>Confident</span></button>
+            <button class="mood" type="button" data-mood-group="trade1" data-mood="Patient" aria-label="Patient"><span class="mood-face">🙂</span><span>Patient</span></button>
+            <button class="mood" type="button" data-mood-group="trade1" data-mood="Tense" aria-label="Tense"><span class="mood-face">😰</span><span>Tense</span></button>
+            <button class="mood" type="button" data-mood-group="trade1" data-mood="Greedy" aria-label="Greedy"><span class="mood-face">🤑</span><span>Greedy</span></button>
+            <button class="mood" type="button" data-mood-group="trade1" data-mood="Unsure" aria-label="Unsure"><span class="mood-face">😕</span><span>Unsure</span></button>
+          </div>
+        </div>
+        <div class="trade-mood-panel" id="trade2Panel" hidden>
+          <div class="trade-mood-heading"><h3>How are you feeling in Trade 2?</h3><span>in the moment</span></div>
+          <div class="mood-grid compact" role="group" aria-label="Select your emotional state during Trade 2">
+            <button class="mood" type="button" data-mood-group="trade2" data-mood="Confident" aria-label="Confident"><span class="mood-face">😎</span><span>Confident</span></button>
+            <button class="mood" type="button" data-mood-group="trade2" data-mood="Patient" aria-label="Patient"><span class="mood-face">🙂</span><span>Patient</span></button>
+            <button class="mood" type="button" data-mood-group="trade2" data-mood="Tense" aria-label="Tense"><span class="mood-face">😰</span><span>Tense</span></button>
+            <button class="mood" type="button" data-mood-group="trade2" data-mood="Greedy" aria-label="Greedy"><span class="mood-face">🤑</span><span>Greedy</span></button>
+            <button class="mood" type="button" data-mood-group="trade2" data-mood="Unsure" aria-label="Unsure"><span class="mood-face">😕</span><span>Unsure</span></button>
+          </div>
         </div>
       </section>
 
