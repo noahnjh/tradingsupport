@@ -5,6 +5,8 @@ const tradeButtons = document.querySelectorAll(".trade-button");
 const themeButton = document.querySelector("#themeButton");
 const startButton = document.querySelector("#startButton");
 const breakButton = document.querySelector("#breakButton");
+const breakSuggestions = document.querySelector("#breakSuggestions");
+const suggestionButtons = document.querySelectorAll(".suggestion-button");
 const completeButton = document.querySelector("#completeButton");
 const resetButtons = document.querySelectorAll("#resetButton, #resetBottomButton");
 const tradeCheckins = document.querySelector("#tradeCheckins");
@@ -73,7 +75,9 @@ function render() {
   startButton.textContent = state.sessionStarted ? "Session in progress" : "Start session";
   breakButton.textContent = state.takingBreak ? "Break noted for today" : "Taking a break today";
   breakButton.setAttribute("aria-pressed", String(Boolean(state.takingBreak)));
-  statusMessage.textContent = state.takingBreak ? "Good call. Rest is part of the process." : state.sessionStarted ? "Stay with your plan. Check back in when you are done." : readyToStart ? `${state.moods.arrival.join(" + ")} noted. You are ready.` : completedChecks === 3 ? "Select at least one arrival emotion to begin." : "I'm proud of you for showing up for yourself.";
+  breakSuggestions.hidden = !state.takingBreak;
+  suggestionButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.suggestion === state.breakSuggestion)));
+  statusMessage.textContent = state.takingBreak ? (state.breakSuggestion ? `${state.breakSuggestion} sounds good. Take the time you need.` : "Good call. Rest is part of the process.") : state.sessionStarted ? "Stay with your plan. Check back in when you are done." : readyToStart ? `${state.moods.arrival.join(" + ")} noted. You are ready.` : completedChecks === 3 ? "Select at least one arrival emotion to begin." : "I'm proud of you for showing up for yourself.";
   statusMessage.classList.toggle("ready", readyToStart);
   moodGroups.forEach((group) => {
     const reminder = document.querySelector(`#${group}Reminder`);
@@ -143,9 +147,16 @@ breakButton.addEventListener("click", () => {
   state.takingBreak = !state.takingBreak;
   state.sessionStarted = false;
   state.sessionCompleted = false;
+  if (!state.takingBreak) state.breakSuggestion = "";
   saveState();
   render();
 });
+
+suggestionButtons.forEach((button) => button.addEventListener("click", () => {
+  state.breakSuggestion = state.breakSuggestion === button.dataset.suggestion ? "" : button.dataset.suggestion;
+  saveState();
+  render();
+}));
 
 function resetSession() {
   localStorage.removeItem("session-check-in");
@@ -158,6 +169,7 @@ function resetSession() {
   state.sessionStarted = false;
   state.sessionCompleted = false;
   state.takingBreak = false;
+  state.breakSuggestion = "";
   state.note = "";
   render();
 }
