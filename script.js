@@ -9,16 +9,20 @@ const routineCount = document.querySelector("#routineCount");
 const statusMessage = document.querySelector("#statusMessage");
 const noteInput = document.querySelector("#noteInput");
 const sessionHeading = document.querySelector("#sessionHeading");
-const moodGroups = ["arrival", "trade1", "trade2"];
+const moodGroups = ["arrival", "trade1", "trade2", "after"];
 const riskyEmotions = ["Restless", "Uncertain", "Anxious", "Frustrated", "Greedy"];
 const emotionOptions = [
-  ["Focused", "focused"], ["Calm", "calm"], ["Confident", "confident"], ["Energized", "energized"], ["Patient", "patient"],
+  ["Focused", "focused"], ["Calm", "calm"], ["Confident", "confident"], ["Happy", "happy"], ["Patient", "patient"],
   ["Restless", "restless"], ["Uncertain", "uncertain"], ["Anxious", "anxious"], ["Frustrated", "frustrated"], ["Greedy", "greedy"]
 ];
 
 state.checks = state.checks || [false, false];
 state.checks[2] = Boolean(state.checks[2]);
-state.session = state.session || "Asia";
+if (!state.sessionChoiceInitialized) {
+  state.session = "";
+  state.sessionChoiceInitialized = true;
+  localStorage.setItem("session-check-in", JSON.stringify(state));
+}
 state.moods = state.moods || {};
 moodGroups.forEach((group) => {
   state.moods[group] = Array.isArray(state.moods[group]) ? state.moods[group] : state.moods[group] ? [state.moods[group]] : [];
@@ -52,7 +56,7 @@ function render() {
   document.documentElement.dataset.theme = state.theme;
   themeButton.textContent = state.theme === "dark" ? "☼" : "☾";
   themeButton.setAttribute("aria-label", state.theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
-  sessionHeading.textContent = state.session === "Asia" ? "Asia" : "New York";
+  sessionHeading.textContent = state.session || "Choose a session";
   noteInput.value = state.note || "";
   const completedChecks = state.checks.filter(Boolean).length;
   routineCount.textContent = `${completedChecks} / 3`;
@@ -61,13 +65,13 @@ function render() {
   startButton.textContent = state.sessionStarted ? "Session in progress" : "Start session";
   breakButton.textContent = state.takingBreak ? "Break noted for today" : "Taking a break today";
   breakButton.setAttribute("aria-pressed", String(Boolean(state.takingBreak)));
-  statusMessage.textContent = state.takingBreak ? "Good call. Rest is part of the process." : state.sessionStarted ? "Stay with your plan. Check back in when you are done." : readyToStart ? `${state.moods.arrival.join(" + ")} noted. You are ready.` : completedChecks === 3 ? "Select at least one arrival emotion to begin." : "Complete the three checks to begin.";
+  statusMessage.textContent = state.takingBreak ? "Good call. Rest is part of the process." : state.sessionStarted ? "Stay with your plan. Check back in when you are done." : readyToStart ? `${state.moods.arrival.join(" + ")} noted. You are ready.` : completedChecks === 3 ? "Select at least one arrival emotion to begin." : "I'm proud of you for showing up for yourself.";
   statusMessage.classList.toggle("ready", readyToStart);
   moodGroups.forEach((group) => {
     const reminder = document.querySelector(`#${group}Reminder`);
     const needsReminder = state.moods[group].some((emotion) => riskyEmotions.includes(emotion));
     reminder.hidden = !needsReminder;
-    reminder.textContent = "A gentle check-in: it is okay not to trade today. Protecting your state is part of the process.";
+    reminder.textContent = group === "arrival" || group === "after" ? "A gentle check-in: it is okay not to trade today. Protecting your state is part of the process." : "Whatever you're feeling is okay. Notice it, take a breath, and stay connected to your plan.";
   });
 }
 
@@ -129,8 +133,9 @@ breakButton.addEventListener("click", () => {
 document.querySelector("#resetButton").addEventListener("click", () => {
   localStorage.removeItem("session-check-in");
   state.checks = [false, false, false];
-  state.session = "Asia";
-  state.moods = { arrival: [], trade1: [], trade2: [] };
+  state.session = "";
+  state.sessionChoiceInitialized = true;
+  state.moods = { arrival: [], trade1: [], trade2: [], after: [] };
   state.trades = {};
   state.activeTrade = "";
   state.sessionStarted = false;

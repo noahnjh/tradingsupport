@@ -27,13 +27,13 @@
       <section class="session-card" aria-labelledby="sessionHeading">
         <div class="session-heading">
           <div>
-            <p class="eyebrow warm">Live session</p>
-            <h2 id="sessionHeading">Asia</h2>
+            <p class="eyebrow warm">Select a trading session</p>
+            <h2 id="sessionHeading">Choose a session</h2>
           </div>
           <span class="live-dot"><i></i> Active</span>
         </div>
         <div class="session-options" role="group" aria-label="Choose your trading session">
-          <button class="session-option" type="button" data-session="Asia" aria-pressed="true"><span>☾</span> Asia</button>
+          <button class="session-option" type="button" data-session="Asia" aria-pressed="false"><span>☾</span> Asia</button>
           <button class="session-option" type="button" data-session="New York" aria-pressed="false"><span>☀</span> New York</button>
         </div>
       </section>
@@ -93,12 +93,20 @@
         </div>
       </section>
 
-      <section class="note-section" aria-labelledby="noteHeading">
-        <div class="section-label"><h2 id="noteHeading">One thing to remember</h2><span class="optional">Optional</span></div>
-        <label class="note-wrap" for="noteInput"><span aria-hidden="true">↳</span><textarea id="noteInput" rows="2" maxlength="140" placeholder="e.g. Wait for the retest, not the impulse..."></textarea></label>
+      <section class="feelings after-session" aria-labelledby="afterSessionHeading">
+        <div class="section-label">
+          <div><h2 id="afterSessionHeading">How are you feeling after the session?</h2><p>Take a moment to notice what the day left with you.</p></div>
+        </div>
+        <div class="mood-grid" id="afterMoodGrid" role="group" aria-label="Select one or more emotional states after the session"></div>
+        <p class="emotion-reminder" id="afterReminder" hidden></p>
       </section>
 
-      <p class="footer-note" id="statusMessage" aria-live="polite">Complete the two checks to begin.</p>
+      <section class="note-section" aria-labelledby="noteHeading">
+        <div class="section-label"><h2 id="noteHeading">More that I'm noticing today</h2><span class="optional">Optional</span></div>
+        <label class="note-wrap" for="noteInput"><span aria-hidden="true">↳</span><textarea id="noteInput" rows="2" maxlength="140" placeholder="e.g. I noticed I rushed after a loss..."></textarea></label>
+      </section>
+
+      <p class="footer-note" id="statusMessage" aria-live="polite">I'm proud of you for showing up for yourself.</p>
     </main>
     <script src="script.js"></script>
   </body>
