@@ -9,16 +9,22 @@ const breakSuggestions = document.querySelector("#breakSuggestions");
 const suggestionButtons = document.querySelectorAll(".suggestion-button");
 const completeButton = document.querySelector("#completeButton");
 const resetButtons = document.querySelectorAll("#resetButton, #resetBottomButton");
+const setupRating = document.querySelector("#setupRating");
+const setupRatingOptions = document.querySelectorAll(".setup-rating-option");
+const setupRatingMessage = document.querySelector("#setupRatingMessage");
 const tradeCheckins = document.querySelector("#tradeCheckins");
 const afterSession = document.querySelector("#afterSession");
 const routineCount = document.querySelector("#routineCount");
 const statusMessage = document.querySelector("#statusMessage");
 const noteInput = document.querySelector("#noteInput");
-const sessionHeading = document.querySelector("#sessionHeading");
 const reportButton = document.querySelector("#reportButton");
 const reportResult = document.querySelector("#reportResult");
 const reportImage = document.querySelector("#reportImage");
+const copyReportButton = document.querySelector("#copyReportButton");
+const downloadReportLink = document.querySelector("#downloadReportLink");
 const reportStatus = document.querySelector("#reportStatus");
+let reportBlob;
+let reportObjectUrl;
 const moodGroups = ["arrival", "trade1", "trade2", "after"];
 const riskyEmotions = ["Restless", "Uncertain", "Anxious", "Frustrated", "Greedy"];
 const emotionOptions = [
@@ -38,6 +44,7 @@ moodGroups.forEach((group) => {
   state.moods[group] = Array.isArray(state.moods[group]) ? state.moods[group] : state.moods[group] ? [state.moods[group]] : [];
 });
 state.trades = state.trades || {};
+state.setupRating = state.setupRating || "";
 state.theme = state.theme || "dark";
 
 function createMoodButtons() {
@@ -66,7 +73,16 @@ function render() {
   document.documentElement.dataset.theme = state.theme;
   themeButton.textContent = state.theme === "dark" ? "☼" : "☾";
   themeButton.setAttribute("aria-label", state.theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
-  sessionHeading.textContent = state.session || "Choose a session";
+  setupRating.hidden = !state.sessionStarted;
+  setupRatingOptions.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.rating === state.setupRating)));
+  const setupMessages = {
+    "A+": "This is a strong setup. Stay patient and execute your plan.",
+    "B+": "It may be best to wait for a more ideal setup or trade with smaller size.",
+    C: "This is not a trade we want to take. Protect your capital and pass."
+  };
+  setupRatingMessage.hidden = !state.setupRating;
+  setupRatingMessage.textContent = setupMessages[state.setupRating] || "";
+  setupRatingMessage.dataset.rating = state.setupRating;
   tradeCheckins.hidden = !state.sessionStarted;
   completeButton.hidden = !state.sessionStarted;
   completeButton.setAttribute("aria-pressed", String(Boolean(state.sessionCompleted)));
@@ -162,6 +178,12 @@ suggestionButtons.forEach((button) => button.addEventListener("click", () => {
   render();
 }));
 
+setupRatingOptions.forEach((button) => button.addEventListener("click", () => {
+  state.setupRating = state.setupRating === button.dataset.rating ? "" : button.dataset.rating;
+  saveState();
+  render();
+}));
+
 function drawReportText(context, text, x, y, maxWidth, lineHeight) {
   const words = String(text).split(" ");
   let line = "";
@@ -195,6 +217,7 @@ function createReportImage() {
     ["Before you trade", `${state.checks.filter(Boolean).length} of 3 steps complete`],
     ["Trade 1 emotions", reportValue(state.moods.trade1)],
     ["Trade 2 emotions", reportValue(state.moods.trade2)],
+    ["Trade setup rating", state.setupRating || "Not rated"],
     ["After-session emotions", reportValue(state.moods.after)],
     ["Today’s plan", state.takingBreak ? `Taking a break${state.breakSuggestion ? ` - ${state.breakSuggestion}` : ""}` : state.sessionStarted ? "Session in progress" : state.sessionCompleted ? "Session completed" : "Not started"],
     ["Notes", state.note?.trim() || "No notes added"]
@@ -236,6 +259,21 @@ function createReportImage() {
   return canvas;
 }
 
+async function copyReportImage() {
+  if (!reportBlob || !navigator.clipboard || !window.ClipboardItem) {
+    reportStatus.textContent = "Copying images is unavailable in this browser. Use Download image instead.";
+    return false;
+  }
+  try {
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": reportBlob })]);
+    reportStatus.textContent = "Report image copied to your clipboard.";
+    return true;
+  } catch (error) {
+    reportStatus.textContent = "Copying was blocked by the browser. Use Download image instead.";
+    return false;
+  }
+}
+
 reportButton.addEventListener("click", () => {
   reportButton.disabled = true;
   reportStatus.textContent = "Creating your report...";
@@ -246,19 +284,18 @@ reportButton.addEventListener("click", () => {
       reportButton.disabled = false;
       return;
     }
-    reportImage.src = URL.createObjectURL(blob);
+    reportBlob = blob;
+    if (reportObjectUrl) URL.revokeObjectURL(reportObjectUrl);
+    reportObjectUrl = URL.createObjectURL(blob);
+    reportImage.src = reportObjectUrl;
+    downloadReportLink.href = reportObjectUrl;
     reportResult.hidden = false;
-    try {
-      if (!navigator.clipboard || !window.ClipboardItem) throw new Error("Clipboard image copy is unavailable");
-      await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
-      reportStatus.textContent = "Report created and copied to your clipboard.";
-    } catch (error) {
-      reportStatus.textContent = "Report created. Clipboard image copy is unavailable in this browser.";
-    } finally {
-      reportButton.disabled = false;
-    }
+    await copyReportImage();
+    reportButton.disabled = false;
   }, "image/png");
 });
+
+copyReportButton.addEventListener("click", copyReportImage);
 
 function resetSession() {
   localStorage.removeItem("session-check-in");
@@ -268,6 +305,7 @@ function resetSession() {
   state.moods = { arrival: [], trade1: [], trade2: [], after: [] };
   state.trades = {};
   state.activeTrade = "";
+  state.setupRating = "";
   state.sessionStarted = false;
   state.sessionCompleted = false;
   state.takingBreak = false;

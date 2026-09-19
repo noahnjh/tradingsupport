@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#101817" />
-    <title>Session Check-in</title>
+    <title>Trading Companion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -13,7 +13,6 @@
   <body>
     <main class="shell">
       <header class="topbar">
-        <div class="brand-mark" aria-hidden="true">S</div>
         <div>
           <p class="eyebrow">Trading companion</p>
           <h1>Session check-in</h1>
@@ -24,13 +23,9 @@
         </div>
       </header>
 
-      <section class="session-card" aria-labelledby="sessionHeading">
+      <section class="session-card" aria-label="Trading session">
         <div class="session-heading">
-          <div>
-            <p class="eyebrow warm">Select a trading session</p>
-            <h2 id="sessionHeading">Choose a session</h2>
-          </div>
-          <span class="live-dot"><i></i> Active</span>
+          <p class="eyebrow warm">Select a trading session</p>
         </div>
         <div class="session-options" role="group" aria-label="Choose your trading session">
           <button class="session-option" type="button" data-session="Asia" aria-pressed="false"><span>☾</span> Asia</button>
@@ -91,6 +86,18 @@
         <button class="complete-button" id="completeButton" type="button" hidden>Session completed</button>
       </section>
 
+      <section class="setup-rating" id="setupRating" aria-labelledby="setupRatingHeading" hidden>
+        <div class="section-label">
+          <div><h2 id="setupRatingHeading">Trade setup rating</h2><p>How closely does this setup match your plan?</p></div>
+        </div>
+        <div class="setup-rating-options" role="group" aria-label="Rate the trade setup">
+          <button class="setup-rating-option" type="button" data-rating="A+" aria-pressed="false">A+</button>
+          <button class="setup-rating-option" type="button" data-rating="B+" aria-pressed="false">B+</button>
+          <button class="setup-rating-option" type="button" data-rating="C" aria-pressed="false">C</button>
+        </div>
+        <p class="setup-rating-message" id="setupRatingMessage" aria-live="polite" hidden></p>
+      </section>
+
       <section class="trades" id="tradeCheckins" aria-labelledby="tradesHeading" hidden>
         <div class="section-label">
           <div><h2 id="tradesHeading">Trade check-ins</h2><p>Notice what changes once you are in.</p></div>
@@ -132,6 +139,10 @@
         <button class="report-button" id="reportButton" type="button"><span aria-hidden="true">▧</span> Generate and copy report image</button>
         <div class="report-result" id="reportResult" hidden>
           <img id="reportImage" alt="Generated session check-in report" />
+          <div class="report-actions">
+            <button class="report-action" id="copyReportButton" type="button"><span aria-hidden="true">▣</span> Copy image</button>
+            <a class="report-action" id="downloadReportLink" href="#" download="session-check-in.png"><span aria-hidden="true">↓</span> Download image</a>
+          </div>
           <p class="report-status" id="reportStatus" aria-live="polite"></p>
         </div>
       </section>
