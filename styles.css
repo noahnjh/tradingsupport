@@ -50,7 +50,6 @@ h2 { margin-bottom: 0; font-size: 17px; letter-spacing: -.02em; }
 .session-heading h2 { margin-top: 5px; font-size: 22px; }
 .live-dot { display: flex; align-items: center; gap: 6px; color: var(--green); font-family: "DM Mono", monospace; font-size: 10px; }
 .live-dot i { display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(147, 201, 166, .1); }
-.session-meta { display: flex; align-items: center; gap: 9px; margin-top: 13px; color: var(--muted); font-size: 13px; }
 .mono { font-family: "DM Mono", monospace; font-size: 10px; }
 .meta-divider { width: 3px; height: 3px; border-radius: 50%; background: var(--dim); }
 .session-progress { height: 4px; margin-top: 18px; overflow: hidden; border-radius: 5px; background: #26322d; }
@@ -74,6 +73,7 @@ h2 { margin-bottom: 0; font-size: 17px; letter-spacing: -.02em; }
 .check-copy small { color: var(--muted); font-size: 12px; line-height: 1.35; }
 .row-arrow { margin-left: auto; color: var(--dim); font-size: 22px; font-weight: 300; transition: transform .2s; }
 .check-row:hover .row-arrow { color: var(--accent); transform: translateX(3px); }
+.check-row .row-arrow { display: none; }
 .mood-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .mood { display: grid; justify-items: center; gap: 8px; min-height: 82px; padding: 10px 3px 9px; color: var(--muted); border: 1px solid var(--line); border-radius: 9px; background: rgba(23, 33, 30, .6); cursor: pointer; transition: border-color .2s, background .2s, transform .2s; }
 .mood-grid.compact { gap: 5px; }

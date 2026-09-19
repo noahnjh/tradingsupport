@@ -1,5 +1,5 @@
 const state = JSON.parse(localStorage.getItem("session-check-in") || "{}" );
-const checks = [document.querySelector("#ackButton"), document.querySelector("#newsButton")];
+const checks = [document.querySelector("#ackButton"), document.querySelector("#newsButton"), document.querySelector("#htfButton")];
 const moods = document.querySelectorAll(".mood");
 const sessionOptions = document.querySelectorAll(".session-option");
 const tradeButtons = document.querySelectorAll(".trade-button");
@@ -10,9 +10,9 @@ const routineCount = document.querySelector("#routineCount");
 const statusMessage = document.querySelector("#statusMessage");
 const noteInput = document.querySelector("#noteInput");
 const sessionHeading = document.querySelector("#sessionHeading");
-const sessionTime = document.querySelector("#sessionTime");
 
 state.checks = state.checks || [false, false];
+state.checks[2] = Boolean(state.checks[2]);
 state.session = state.session || "New York";
 state.moods = state.moods || {};
 state.trades = state.trades || {};
@@ -37,16 +37,15 @@ function render() {
   document.documentElement.dataset.theme = state.theme;
   themeButton.textContent = state.theme === "dark" ? "☼" : "☾";
   themeButton.setAttribute("aria-label", state.theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
-  sessionHeading.textContent = state.session === "Asia" ? "Asia open" : "New York open";
-  sessionTime.textContent = state.session === "Asia" ? "20:00 — 22:00 ET" : "09:30 — 11:30 ET";
+  sessionHeading.textContent = state.session === "Asia" ? "Asia" : "New York";
   noteInput.value = state.note || "";
   const completedChecks = state.checks.filter(Boolean).length;
-  routineCount.textContent = `${completedChecks} / 2`;
-  const progress = 18 + (completedChecks * 19) + (state.moods.arrival ? 10 : 0) + (state.activeTrade ? 10 : 0);
+  routineCount.textContent = `${completedChecks} / 3`;
+  const progress = 18 + (completedChecks * 15) + (state.moods.arrival ? 10 : 0) + (state.activeTrade ? 10 : 0);
   progressBar.style.width = `${progress}%`;
-  startButton.disabled = completedChecks !== 2;
-  statusMessage.textContent = completedChecks === 2 ? (state.moods.arrival ? `${state.moods.arrival} noted. You are ready.` : "Checks complete. Add a mood when you are ready.") : "Complete the two checks to begin.";
-  statusMessage.classList.toggle("ready", completedChecks === 2);
+  startButton.disabled = completedChecks !== 3;
+  statusMessage.textContent = completedChecks === 3 ? (state.moods.arrival ? `${state.moods.arrival} noted. You are ready.` : "Checks complete. Add a mood when you are ready.") : "Complete the three checks to begin.";
+  statusMessage.classList.toggle("ready", completedChecks === 3);
 }
 
 checks.forEach((button, index) => button.addEventListener("click", () => {
@@ -95,7 +94,7 @@ startButton.addEventListener("click", () => {
 
 document.querySelector("#resetButton").addEventListener("click", () => {
   localStorage.removeItem("session-check-in");
-  state.checks = [false, false];
+  state.checks = [false, false, false];
   state.session = "New York";
   state.moods = {};
   state.trades = {};
