@@ -26,10 +26,10 @@ const reportStatus = document.querySelector("#reportStatus");
 let reportBlob;
 let reportObjectUrl;
 const moodGroups = ["arrival", "trade1", "trade2", "after"];
-const riskyEmotions = ["Restless", "Uncertain", "Anxious", "Frustrated", "Greedy"];
+const riskyEmotions = ["Restless", "Uncertain", "Anxious", "Frustrated", "Greedy", "Angry", "Disappointed", "Fearful", "Impatient", "Revengeful", "Hesitant"];
 const emotionOptions = [
-  ["Focused", "focused"], ["Calm", "calm"], ["Confident", "confident"], ["Happy", "happy"], ["Patient", "patient"],
-  ["Restless", "restless"], ["Uncertain", "uncertain"], ["Anxious", "anxious"], ["Frustrated", "frustrated"], ["Greedy", "greedy"]
+  "Focused", "Calm", "Confident", "Happy", "Patient", "Restless", "Uncertain", "Anxious", "Frustrated", "Greedy",
+  "Angry", "Disappointed", "Fearful", "Impatient", "Overconfident", "Hopeful", "Bored", "Distracted", "Revengeful", "Hesitant"
 ];
 
 state.checks = state.checks || [false, false];
@@ -45,12 +45,12 @@ moodGroups.forEach((group) => {
 });
 state.trades = state.trades || {};
 state.setupRating = state.setupRating || "";
-state.theme = state.theme || "dark";
+state.theme = state.theme || "light";
 
 function createMoodButtons() {
   moodGroups.forEach((group) => {
     const grid = document.querySelector(`#${group === "arrival" ? "arrival" : group}MoodGrid`);
-    grid.innerHTML = emotionOptions.map(([label, face]) => `<button class="mood" type="button" data-mood-group="${group}" data-mood="${label}" aria-label="${label}"><span class="mood-face face-${face}" aria-hidden="true"><i></i></span><span>${label}</span></button>`).join("");
+    grid.innerHTML = emotionOptions.map((label) => `<button class="mood" type="button" data-mood-group="${group}" data-mood="${label}" aria-label="${label}">${label}</button>`).join("");
   });
 }
 
@@ -218,10 +218,10 @@ function createReportImage() {
     ["After-session emotions", reportValue(state.moods.after)],
     ["Notes", state.note?.trim() || "No notes added"]
   ];
-  if (state.moods.trade1.length > 0 && state.moods.trade2.length > 0) {
+  if (state.moods.trade1.length > 0 || state.moods.trade2.length > 0) {
     sections.splice(2, 0, ["Trade 1 emotions", reportValue(state.moods.trade1)], ["Trade 2 emotions", reportValue(state.moods.trade2)]);
   }
-  const canvasHeight = 320 + sections.length * 88;
+  const canvasHeight = 320 + sections.length * 88 + 96;
   canvas.width = width;
   canvas.height = canvasHeight;
   const context = canvas.getContext("2d");
