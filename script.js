@@ -214,14 +214,13 @@ function createReportImage() {
   const sections = [
     ["Trading session", state.session || "Not selected"],
     ["Arrival emotions", reportValue(state.moods.arrival)],
-    ["Before you trade", `${state.checks.filter(Boolean).length} of 3 steps complete`],
-    ["Trade 1 emotions", reportValue(state.moods.trade1)],
-    ["Trade 2 emotions", reportValue(state.moods.trade2)],
     ["Trade setup rating", state.setupRating || "Not rated"],
     ["After-session emotions", reportValue(state.moods.after)],
-    ["Today’s plan", state.takingBreak ? `Taking a break${state.breakSuggestion ? ` - ${state.breakSuggestion}` : ""}` : state.sessionStarted ? "Session in progress" : state.sessionCompleted ? "Session completed" : "Not started"],
     ["Notes", state.note?.trim() || "No notes added"]
   ];
+  if (state.moods.trade1.length > 0 && state.moods.trade2.length > 0) {
+    sections.splice(2, 0, ["Trade 1 emotions", reportValue(state.moods.trade1)], ["Trade 2 emotions", reportValue(state.moods.trade2)]);
+  }
   const canvasHeight = 320 + sections.length * 88;
   canvas.width = width;
   canvas.height = canvasHeight;
