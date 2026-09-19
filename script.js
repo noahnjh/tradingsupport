@@ -6,6 +6,7 @@ const themeButton = document.querySelector("#themeButton");
 const startButton = document.querySelector("#startButton");
 const breakButton = document.querySelector("#breakButton");
 const completeButton = document.querySelector("#completeButton");
+const resetButtons = document.querySelectorAll("#resetButton, #resetBottomButton");
 const tradeCheckins = document.querySelector("#tradeCheckins");
 const afterSession = document.querySelector("#afterSession");
 const routineCount = document.querySelector("#routineCount");
@@ -62,6 +63,7 @@ function render() {
   sessionHeading.textContent = state.session || "Choose a session";
   tradeCheckins.hidden = !state.sessionStarted;
   completeButton.hidden = !state.sessionStarted;
+  completeButton.setAttribute("aria-pressed", String(Boolean(state.sessionCompleted)));
   afterSession.hidden = !state.sessionCompleted;
   noteInput.value = state.note || "";
   const completedChecks = state.checks.filter(Boolean).length;
@@ -75,6 +77,7 @@ function render() {
   statusMessage.classList.toggle("ready", readyToStart);
   moodGroups.forEach((group) => {
     const reminder = document.querySelector(`#${group}Reminder`);
+    if (!reminder) return;
     const needsReminder = group !== "after" && state.moods[group].some((emotion) => riskyEmotions.includes(emotion));
     reminder.hidden = !needsReminder;
     reminder.textContent = group === "arrival" ? "A gentle check-in: it is okay not to trade today. Protecting your state is part of the process." : "Whatever you're feeling is okay. Notice it, take a breath, and stay connected to your plan.";
@@ -140,12 +143,11 @@ breakButton.addEventListener("click", () => {
   state.takingBreak = !state.takingBreak;
   state.sessionStarted = false;
   state.sessionCompleted = false;
-  state.sessionCompleted = false;
   saveState();
   render();
 });
 
-document.querySelector("#resetButton").addEventListener("click", () => {
+function resetSession() {
   localStorage.removeItem("session-check-in");
   state.checks = [false, false, false];
   state.session = "";
@@ -154,10 +156,13 @@ document.querySelector("#resetButton").addEventListener("click", () => {
   state.trades = {};
   state.activeTrade = "";
   state.sessionStarted = false;
+  state.sessionCompleted = false;
   state.takingBreak = false;
   state.note = "";
   render();
-});
+}
+
+resetButtons.forEach((button) => button.addEventListener("click", resetSession));
 
 createMoodButtons();
 attachMoodListeners();

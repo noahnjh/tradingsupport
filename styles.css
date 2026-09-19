@@ -81,15 +81,15 @@ h2 { margin-bottom: 0; font-size: 17px; letter-spacing: -.02em; }
 .mood-grid.compact .mood { min-height: 75px; }
 .mood:hover { border-color: #597060; transform: translateY(-2px); }
 .mood[aria-pressed="true"] { color: var(--accent-soft); border-color: var(--accent); background: rgba(229, 173, 98, .1); }
-.mood-face { position: relative; display: block; width: 32px; height: 32px; overflow: hidden; border: 2px solid #c2884f; border-radius: 9px 15px 8px 14px; background: conic-gradient(from 210deg, #f0c27a, #d98553, #f2d18f, #f0c27a); box-shadow: inset -3px -3px 0 rgba(115, 66, 33, .12); transform: rotate(-8deg); }
-.mood-face::before { content: ""; position: absolute; top: 7px; left: 7px; width: 14px; height: 14px; border: 2px solid rgba(62, 57, 51, .65); border-radius: 50%; }
-.mood-face::after { content: ""; position: absolute; right: 5px; bottom: 6px; width: 8px; height: 2px; border-radius: 2px; background: rgba(62, 57, 51, .7); transform: rotate(-28deg); }
-.face-calm, .face-patient { border-radius: 50% 8px 50% 10px; background: conic-gradient(#f2d18f, #b8d6c0, #f2d18f); transform: rotate(12deg); }
-.face-confident, .face-happy { border-radius: 50% 11px 10px 11px; background: conic-gradient(#f3b66e, #f6d778, #d98553); transform: rotate(5deg); }
-.face-restless, .face-anxious { border-radius: 14px 5px 14px 5px; background: repeating-linear-gradient(135deg, #d98553 0 4px, #f0c27a 4px 8px); transform: rotate(-15deg); }
-.face-uncertain { border-radius: 8px 50% 8px 50%; background: conic-gradient(#a9c5d6, #f0c27a, #a9c5d6); transform: rotate(18deg); }
-.face-frustrated { border-radius: 4px 15px 4px 15px; background: repeating-linear-gradient(45deg, #d98553 0 3px, #e8a36e 3px 6px); transform: rotate(-5deg); }
-.face-greedy { border-radius: 50% 50% 8px 8px; background: conic-gradient(#f0c27a, #d4a74f, #f0c27a); transform: rotate(8deg); }
+.mood-face { position: relative; display: block; width: 32px; height: 32px; border: 2px solid #c2884f; border-radius: 6px 15px 6px 15px; background: linear-gradient(135deg, #f0c27a 0 45%, #d98553 45% 58%, #f2d18f 58%); box-shadow: inset -3px -3px 0 rgba(115, 66, 33, .12); transform: rotate(45deg); }
+.mood-face::before { content: ""; position: absolute; top: 13px; left: 5px; width: 18px; height: 3px; border-radius: 2px; background: rgba(62, 57, 51, .7); transform: rotate(-45deg); }
+.mood-face::after { content: ""; position: absolute; right: 5px; top: 5px; width: 5px; height: 5px; border-radius: 50%; background: rgba(62, 57, 51, .7); }
+.face-calm, .face-patient { border-radius: 50%; background: repeating-linear-gradient(0deg, #b8d6c0 0 3px, #f2d18f 3px 6px); transform: rotate(45deg); }
+.face-confident, .face-happy { background: linear-gradient(135deg, #f6d778 0 40%, #d98553 40% 58%, #f3b66e 58%); }
+.face-restless, .face-anxious { border-radius: 3px 16px 3px 16px; background: repeating-linear-gradient(135deg, #d98553 0 4px, #f0c27a 4px 8px); transform: rotate(45deg) skew(-6deg); }
+.face-uncertain { border-radius: 50% 5px; background: linear-gradient(90deg, #a9c5d6 0 30%, #f0c27a 30% 70%, #a9c5d6 70%); }
+.face-frustrated { border-radius: 2px 13px; background: repeating-linear-gradient(45deg, #d98553 0 3px, #e8a36e 3px 6px); }
+.face-greedy { border-radius: 50% 50% 5px 5px; background: conic-gradient(#d4a74f, #f0c27a, #d4a74f); }
 .mood[aria-pressed="true"] .mood-face { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(229, 173, 98, .14); }
 .mood span:last-child { font-size: 11px; font-weight: 600; }
 .emotion-reminder { margin: 9px 0 0; padding: 9px 10px; color: #a96731; border-left: 3px solid var(--accent); background: rgba(229, 173, 98, .1); font-size: 11px; line-height: 1.4; }
@@ -120,4 +120,6 @@ textarea::placeholder { color: var(--dim); }
 .primary-button:not(:disabled):hover { background: var(--accent-soft); box-shadow: 0 8px 24px rgba(229, 173, 98, .16); transform: translateY(-1px); }
 .footer-note { min-height: 15px; margin: 10px 0 0; color: var(--dim); text-align: center; font-family: "DM Mono", monospace; font-size: 10px; }
 .footer-note.ready { color: var(--green); }
+.reset-bottom { display: block; margin: 14px auto 0; padding: 5px 8px; color: var(--dim); border: 0; background: transparent; cursor: pointer; font-family: "DM Mono", monospace; font-size: 10px; }
+.reset-bottom:hover { color: var(--accent); }
 @media (max-width: 360px) { .shell { padding: 20px 15px 24px; } .mood { min-height: 75px; } .mood span:last-child { font-size: 10px; } .mood-face { width: 28px; height: 28px; } }
