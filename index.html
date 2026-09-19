@@ -125,6 +125,17 @@
         <label class="note-wrap" for="noteInput"><span aria-hidden="true">↳</span><textarea id="noteInput" rows="2" maxlength="140" placeholder="e.g. I noticed I rushed after a loss..."></textarea></label>
       </section>
 
+      <section class="report-section" aria-labelledby="reportHeading">
+        <div class="section-label">
+          <div><h2 id="reportHeading">Keep a record</h2><p>Save this check-in as an image you can share or revisit.</p></div>
+        </div>
+        <button class="report-button" id="reportButton" type="button"><span aria-hidden="true">▧</span> Generate and copy report image</button>
+        <div class="report-result" id="reportResult" hidden>
+          <img id="reportImage" alt="Generated session check-in report" />
+          <p class="report-status" id="reportStatus" aria-live="polite"></p>
+        </div>
+      </section>
+
       <p class="footer-note" id="statusMessage" aria-live="polite">I'm proud of you for showing up for yourself.</p>
       <button class="reset-bottom" id="resetBottomButton" type="button">Reset session</button>
     </main>

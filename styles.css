@@ -64,7 +64,7 @@ h2 { margin-bottom: 0; font-size: 17px; letter-spacing: -.02em; }
 .step-label { color: var(--ink); }
 .step-label span { color: var(--dim); }
 .section-label p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
-.checklist, .feelings, .trades, .note-section { margin-bottom: 28px; }
+.checklist, .feelings, .trades, .note-section, .report-section { margin-bottom: 28px; }
 .check-row { width: 100%; gap: 12px; padding: 13px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; }
 .check-box { display: grid; flex: 0 0 20px; place-items: center; width: 20px; height: 20px; color: transparent; border: 1px solid #405149; border-radius: 6px; font-size: 13px; transition: .2s ease; }
 .check-row[aria-pressed="true"] .check-box { color: var(--base); border-color: var(--green); background: var(--green); }
@@ -131,6 +131,13 @@ textarea::placeholder { color: var(--dim); }
 .primary-button { justify-content: center; width: 100%; padding: 15px 16px; border: 1px solid var(--accent); border-radius: 8px; color: var(--base); background: var(--accent); font-size: 14px; font-weight: 800; cursor: pointer; transition: .2s ease; }
 .primary-button:disabled { cursor: not-allowed; opacity: .35; }
 .primary-button:not(:disabled):hover { background: var(--accent-soft); box-shadow: 0 8px 24px rgba(229, 173, 98, .16); transform: translateY(-1px); }
+.report-button { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 16px; color: var(--green); border: 1px solid var(--green); border-radius: 8px; background: transparent; cursor: pointer; font-size: 13px; font-weight: 800; transition: .2s ease; }
+.report-button span { font-size: 17px; line-height: 1; }
+.report-button:hover { color: var(--ink); background: rgba(147, 201, 166, .1); transform: translateY(-1px); }
+.report-button:disabled { cursor: wait; opacity: .6; transform: none; }
+.report-result { margin-top: 10px; padding: 8px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel-deep); }
+.report-result img { display: block; width: 100%; height: auto; border-radius: 5px; }
+.report-status { margin: 8px 2px 1px; color: var(--muted); text-align: center; font-family: "DM Mono", monospace; font-size: 10px; line-height: 1.4; }
 .footer-note { min-height: 15px; margin: 10px 0 0; color: var(--dim); text-align: center; font-family: "DM Mono", monospace; font-size: 10px; }
 .footer-note.ready { color: var(--green); }
 .reset-bottom { display: block; margin: 14px auto 0; padding: 5px 8px; color: var(--dim); border: 0; background: transparent; cursor: pointer; font-family: "DM Mono", monospace; font-size: 10px; }
