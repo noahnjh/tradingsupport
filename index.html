@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101817" />
+    <title>Session Check-in</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand-mark" aria-hidden="true">S</div>
+        <div>
+          <p class="eyebrow">Trading companion</p>
+          <h1>Session check-in</h1>
+        </div>
+        <button class="icon-button" id="resetButton" type="button" aria-label="Reset session" title="Reset session">↺</button>
+      </header>
+
+      <section class="session-card" aria-labelledby="sessionHeading">
+        <div class="session-heading">
+          <div>
+            <p class="eyebrow warm">Live session</p>
+            <h2 id="sessionHeading">New York open</h2>
+          </div>
+          <span class="live-dot"><i></i> Active</span>
+        </div>
+        <div class="session-meta">
+          <span>Tue, Sep 19</span>
+          <span class="meta-divider"></span>
+          <span class="mono">09:30 — 11:30 ET</span>
+        </div>
+        <div class="session-progress" aria-label="Session progress"><span id="progressBar"></span></div>
+      </section>
+
+      <section class="checklist" aria-labelledby="routineHeading">
+        <div class="section-label">
+          <h2 id="routineHeading">Before you trade</h2>
+          <span class="count" id="routineCount">0 / 2</span>
+        </div>
+
+        <button class="check-row" id="ackButton" type="button" aria-pressed="false">
+          <span class="check-box" aria-hidden="true">✓</span>
+          <span class="check-copy"><strong>I acknowledge this session</strong><small>Present, patient, and ready to follow my plan.</small></span>
+          <span class="row-arrow" aria-hidden="true">›</span>
+        </button>
+        <button class="check-row" id="newsButton" type="button" aria-pressed="false">
+          <span class="check-box" aria-hidden="true">✓</span>
+          <span class="check-copy"><strong>I've checked for upcoming news</strong><small>Know what can move the market before you enter.</small></span>
+          <span class="row-arrow" aria-hidden="true">›</span>
+        </button>
+      </section>
+
+      <section class="feelings" aria-labelledby="feelingsHeading">
+        <div class="section-label">
+          <div><h2 id="feelingsHeading">How are you arriving?</h2><p>There is no right answer. Just notice.</p></div>
+          <span class="step-label">01 <span>/ 03</span></span>
+        </div>
+        <div class="mood-grid" role="group" aria-label="Select your emotional state before trading">
+          <button class="mood" type="button" data-mood="Focused" aria-label="Focused"><span class="mood-face">◉</span><span>Focused</span></button>
+          <button class="mood" type="button" data-mood="Calm" aria-label="Calm"><span class="mood-face">◌</span><span>Calm</span></button>
+          <button class="mood" type="button" data-mood="Restless" aria-label="Restless"><span class="mood-face">◒</span><span>Restless</span></button>
+          <button class="mood" type="button" data-mood="Uncertain" aria-label="Uncertain"><span class="mood-face">?</span><span>Uncertain</span></button>
+          <button class="mood" type="button" data-mood="Energized" aria-label="Energized"><span class="mood-face">✦</span><span>Energized</span></button>
+        </div>
+      </section>
+
+      <section class="note-section" aria-labelledby="noteHeading">
+        <div class="section-label"><h2 id="noteHeading">One thing to remember</h2><span class="optional">Optional</span></div>
+        <label class="note-wrap" for="noteInput"><span aria-hidden="true">↳</span><textarea id="noteInput" rows="2" maxlength="140" placeholder="e.g. Wait for the retest, not the impulse..."></textarea></label>
+      </section>
+
+      <button class="primary-button" id="startButton" type="button" disabled><span>Start session</span><span aria-hidden="true">→</span></button>
+      <p class="footer-note" id="statusMessage" aria-live="polite">Complete the two checks to begin.</p>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
