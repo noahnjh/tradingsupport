@@ -29,7 +29,7 @@ const moodGroups = ["arrival", "trade1", "trade2", "after"];
 const riskyEmotions = ["Restless", "Uncertain", "Anxious", "Frustrated", "Greedy", "Angry", "Disappointed", "Fearful", "Impatient", "Revengeful", "Hesitant"];
 const emotionOptions = [
   "Focused", "Calm", "Confident", "Happy", "Patient", "Restless", "Uncertain", "Anxious", "Frustrated", "Greedy",
-  "Angry", "Disappointed", "Fearful", "Impatient", "Overconfident", "Hopeful", "Bored", "Distracted", "Revengeful", "Hesitant"
+  "Angry", "Disappointed", "Fearful", "Impatient", "Overconfident", "Hopeful", "Tired", "Distracted", "Revengeful", "Hesitant"
 ];
 
 state.checks = state.checks || [false, false];
@@ -42,6 +42,7 @@ if (!state.sessionChoiceInitialized) {
 state.moods = state.moods || {};
 moodGroups.forEach((group) => {
   state.moods[group] = Array.isArray(state.moods[group]) ? state.moods[group] : state.moods[group] ? [state.moods[group]] : [];
+  state.moods[group] = state.moods[group].map((emotion) => emotion === "Bored" ? "Tired" : emotion);
 });
 state.trades = state.trades || {};
 state.setupRating = state.setupRating || "";
