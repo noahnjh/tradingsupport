@@ -11,6 +11,9 @@ const returnButton = document.querySelector("#returnButton");
 const laughMode = document.querySelector("#laughMode");
 const laughCaption = document.querySelector("#laughCaption");
 const laughReturnButton = document.querySelector("#laughReturnButton");
+const memeImage = document.querySelector("#memeImage");
+const memeLoading = document.querySelector("#memeLoading");
+const refreshMemeButton = document.querySelector("#refreshMemeButton");
 const startButton = document.querySelector("#startButton");
 const breakButton = document.querySelector("#breakButton");
 const breakSuggestions = document.querySelector("#breakSuggestions");
@@ -180,11 +183,40 @@ function openBreathingMode() {
 calmButton.addEventListener("click", openBreathingMode);
 returnButton.addEventListener("click", closeBreathingMode);
 
-const sillyMoments = [
-  { animation: "boing", caption: "The market has been informed." },
-  { animation: "wobble", caption: "A very serious little dance." },
-  { animation: "zoomies", caption: "No trades were harmed in the making of this moment." }
+const fallbackMemes = [
+  { url: "https://i.imgflip.com/1bij.jpg", title: "One does not simply stay serious all day." },
+  { url: "https://i.imgflip.com/1ur9b0.jpg", title: "Ancient meme wisdom has entered the chat." },
+  { url: "https://i.imgflip.com/22bdq6.jpg", title: "A very important dog-based analysis." }
 ];
+let memeRequestId = 0;
+
+async function loadMeme() {
+  const requestId = ++memeRequestId;
+  refreshMemeButton.disabled = true;
+  memeImage.hidden = true;
+  memeLoading.hidden = false;
+  memeLoading.textContent = "Finding something silly...";
+  try {
+    const response = await fetch("https://meme-api.com/gimme/wholesomememes");
+    if (!response.ok) throw new Error("Meme request failed");
+    const meme = await response.json();
+    if (requestId !== memeRequestId || meme.nsfw || meme.spoiler || !meme.url) return;
+    memeImage.src = meme.url;
+    memeImage.alt = meme.title || "A wholesome meme";
+    laughCaption.textContent = meme.title || "Fresh from the wholesome meme desk.";
+    memeImage.hidden = false;
+    memeLoading.hidden = true;
+  } catch (error) {
+    const fallback = fallbackMemes[Math.floor(Math.random() * fallbackMemes.length)];
+    memeImage.src = fallback.url;
+    memeImage.alt = fallback.title;
+    laughCaption.textContent = fallback.title;
+    memeImage.hidden = false;
+    memeLoading.hidden = true;
+  } finally {
+    if (requestId === memeRequestId) refreshMemeButton.disabled = false;
+  }
+}
 
 function closeLaughMode() {
   laughMode.hidden = true;
@@ -193,15 +225,14 @@ function closeLaughMode() {
 }
 
 function openLaughMode() {
-  const moment = sillyMoments[Math.floor(Math.random() * sillyMoments.length)];
-  laughMode.className = `laugh-mode ${moment.animation}`;
-  laughCaption.textContent = moment.caption;
   laughMode.hidden = false;
   document.body.classList.add("laugh-active");
   laughReturnButton.focus();
+  loadMeme();
 }
 
 laughButton.addEventListener("click", openLaughMode);
+refreshMemeButton.addEventListener("click", loadMeme);
 laughReturnButton.addEventListener("click", closeLaughMode);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !breathingMode.hidden) closeBreathingMode();
