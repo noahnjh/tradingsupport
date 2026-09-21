@@ -4,16 +4,9 @@ const sessionOptions = document.querySelectorAll(".session-option");
 const tradeButtons = document.querySelectorAll(".trade-button");
 const themeButton = document.querySelector("#themeButton");
 const calmButton = document.querySelector("#calmButton");
-const laughButton = document.querySelector("#laughButton");
 const breathingMode = document.querySelector("#breathingMode");
 const breathingPhase = document.querySelector("#breathingPhase");
 const returnButton = document.querySelector("#returnButton");
-const laughMode = document.querySelector("#laughMode");
-const laughCaption = document.querySelector("#laughCaption");
-const laughReturnButton = document.querySelector("#laughReturnButton");
-const memeImage = document.querySelector("#memeImage");
-const memeLoading = document.querySelector("#memeLoading");
-const refreshMemeButton = document.querySelector("#refreshMemeButton");
 const startButton = document.querySelector("#startButton");
 const breakButton = document.querySelector("#breakButton");
 const breakSuggestions = document.querySelector("#breakSuggestions");
@@ -183,60 +176,8 @@ function openBreathingMode() {
 calmButton.addEventListener("click", openBreathingMode);
 returnButton.addEventListener("click", closeBreathingMode);
 
-const fallbackMemes = [
-  { url: "https://i.imgflip.com/1bij.jpg", title: "One does not simply stay serious all day." },
-  { url: "https://i.imgflip.com/1ur9b0.jpg", title: "Ancient meme wisdom has entered the chat." },
-  { url: "https://i.imgflip.com/22bdq6.jpg", title: "A very important dog-based analysis." }
-];
-let memeRequestId = 0;
-
-async function loadMeme() {
-  const requestId = ++memeRequestId;
-  refreshMemeButton.disabled = true;
-  memeImage.hidden = true;
-  memeLoading.hidden = false;
-  memeLoading.textContent = "Finding something silly...";
-  try {
-    const response = await fetch("https://meme-api.com/gimme/wholesomememes");
-    if (!response.ok) throw new Error("Meme request failed");
-    const meme = await response.json();
-    if (requestId !== memeRequestId || meme.nsfw || meme.spoiler || !meme.url) return;
-    memeImage.src = meme.url;
-    memeImage.alt = meme.title || "A wholesome meme";
-    laughCaption.textContent = meme.title || "Fresh from the wholesome meme desk.";
-    memeImage.hidden = false;
-    memeLoading.hidden = true;
-  } catch (error) {
-    const fallback = fallbackMemes[Math.floor(Math.random() * fallbackMemes.length)];
-    memeImage.src = fallback.url;
-    memeImage.alt = fallback.title;
-    laughCaption.textContent = fallback.title;
-    memeImage.hidden = false;
-    memeLoading.hidden = true;
-  } finally {
-    if (requestId === memeRequestId) refreshMemeButton.disabled = false;
-  }
-}
-
-function closeLaughMode() {
-  laughMode.hidden = true;
-  document.body.classList.remove("laugh-active");
-  laughButton.focus();
-}
-
-function openLaughMode() {
-  laughMode.hidden = false;
-  document.body.classList.add("laugh-active");
-  laughReturnButton.focus();
-  loadMeme();
-}
-
-laughButton.addEventListener("click", openLaughMode);
-refreshMemeButton.addEventListener("click", loadMeme);
-laughReturnButton.addEventListener("click", closeLaughMode);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !breathingMode.hidden) closeBreathingMode();
-  if (event.key === "Escape" && !laughMode.hidden) closeLaughMode();
 });
 
 noteInput.addEventListener("input", () => {
