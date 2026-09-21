@@ -38,7 +38,7 @@ button, textarea { font: inherit; }
 button { color: inherit; }
 .shell { width: min(100%, 430px); min-height: 100vh; margin: 0 auto; padding: 25px 20px 28px; border-left: 1px solid rgba(147, 201, 166, .08); border-right: 1px solid rgba(147, 201, 166, .08); background: var(--shell); }
 .topbar, .session-heading, .section-label, .check-row, .primary-button, .trade-button { display: flex; align-items: center; }
-.topbar { position: sticky; top: 0; z-index: 5; gap: 11px; margin: -25px 0 25px; padding: 14px 0 12px; background: var(--shell); box-shadow: 0 1px 0 rgba(147, 201, 166, .12); }
+.topbar { position: sticky; top: 0; z-index: 5; gap: 11px; margin: -25px 0 25px; padding: 14px 0 12px; background: transparent; }
 .eyebrow { margin: 0 0 3px; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .14em; line-height: 1; text-transform: uppercase; }
 .eyebrow.warm { color: var(--accent); }
 h1, h2, p { margin-top: 0; }
