@@ -43,6 +43,9 @@ button { color: inherit; }
 .eyebrow.warm { color: var(--accent); }
 h1, h2, p { margin-top: 0; }
 .topbar-actions { display: flex; gap: 6px; margin-left: auto; }
+.calm-button { display: flex; align-items: center; gap: 5px; min-height: 34px; padding: 0 10px; color: var(--green); border: 1px solid var(--line); border-radius: 17px; background: transparent; cursor: pointer; font-size: 11px; font-weight: 800; transition: .2s ease; }
+.calm-button span { font-size: 16px; line-height: 1; }
+.calm-button:hover { color: var(--ink); border-color: var(--green); background: rgba(147, 201, 166, .1); }
 h1 { margin-bottom: 0; font-size: 19px; letter-spacing: -.02em; }
 h2 { margin-bottom: 0; font-size: 17px; letter-spacing: -.02em; }
 .icon-button { width: 34px; height: 34px; color: var(--muted); border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; font-size: 20px; line-height: 1; transition: .2s ease; }
@@ -136,4 +139,20 @@ textarea::placeholder { color: var(--dim); }
 .footer-note.ready { color: var(--green); }
 .reset-bottom { display: block; margin: 14px auto 0; padding: 5px 8px; color: var(--dim); border: 0; background: transparent; cursor: pointer; font-family: "DM Mono", monospace; font-size: 10px; }
 .reset-bottom:hover { color: var(--accent); }
+.breathing-mode { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 28px 20px; color: var(--ink); background: radial-gradient(circle at center, rgba(38, 66, 55, .96), rgba(9, 16, 14, .99) 72%); animation: breathing-mode-in .45s ease both; }
+.breathing-mode[hidden] { display: none; }
+.breathing-content { width: min(100%, 430px); text-align: center; }
+.breathing-content h2 { margin: 12px 0 0; font-size: clamp(28px, 8vw, 42px); letter-spacing: -.04em; }
+.breathing-visual { display: grid; place-items: center; height: min(48vh, 300px); min-height: 220px; }
+.breathing-orb { display: grid; place-items: center; width: 142px; height: 142px; border: 1px solid rgba(229, 173, 98, .8); border-radius: 50%; background: rgba(147, 201, 166, .12); box-shadow: 0 0 0 16px rgba(147, 201, 166, .04), 0 0 70px rgba(147, 201, 166, .16); animation: breathe 12s ease-in-out infinite; }
+.breathing-orb span { width: 62px; height: 62px; border: 1px solid rgba(242, 200, 131, .8); border-radius: 50%; background: rgba(229, 173, 98, .14); }
+.breathing-phase { margin: 0; color: var(--accent-soft); font-family: "DM Mono", monospace; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; animation: phase-pulse 12s ease-in-out infinite; }
+.breathing-cue { max-width: 280px; margin: 12px auto 24px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.return-button { padding: 12px 18px; color: var(--ink); border: 1px solid rgba(147, 201, 166, .5); border-radius: 8px; background: rgba(147, 201, 166, .1); cursor: pointer; font-size: 12px; font-weight: 800; transition: .2s ease; }
+.return-button:hover { border-color: var(--green); background: rgba(147, 201, 166, .2); }
+body.breathing-active > *:not(.breathing-mode) { opacity: 0; pointer-events: none; }
+@keyframes breathing-mode-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes breathe { 0%, 100% { transform: scale(.72); } 33% { transform: scale(1.2); } 50% { transform: scale(1.2); } 83% { transform: scale(.72); } }
+@keyframes phase-pulse { 0%, 26% { opacity: .65; } 33%, 50% { opacity: 1; } 83%, 100% { opacity: .65; } }
+@media (prefers-reduced-motion: reduce) { .breathing-mode, .breathing-orb, .breathing-phase { animation: none; } .breathing-orb { transform: scale(1); } }
 @media (max-width: 360px) { .shell { padding: 20px 15px 24px; } .mood { min-height: 48px; font-size: 10px; } }

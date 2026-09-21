@@ -3,6 +3,10 @@ const checks = [document.querySelector("#ackButton"), document.querySelector("#n
 const sessionOptions = document.querySelectorAll(".session-option");
 const tradeButtons = document.querySelectorAll(".trade-button");
 const themeButton = document.querySelector("#themeButton");
+const calmButton = document.querySelector("#calmButton");
+const breathingMode = document.querySelector("#breathingMode");
+const breathingPhase = document.querySelector("#breathingPhase");
+const returnButton = document.querySelector("#returnButton");
 const startButton = document.querySelector("#startButton");
 const breakButton = document.querySelector("#breakButton");
 const breakSuggestions = document.querySelector("#breakSuggestions");
@@ -142,6 +146,37 @@ themeButton.addEventListener("click", () => {
   state.theme = state.theme === "dark" ? "light" : "dark";
   saveState();
   render();
+});
+
+let breathingPhaseTimer;
+let breathingPhaseIndex = 0;
+const breathingPhases = ["Breathe in", "Hold", "Breathe out", "Rest"];
+
+function updateBreathingPhase() {
+  breathingPhase.textContent = breathingPhases[breathingPhaseIndex];
+  breathingPhaseIndex = (breathingPhaseIndex + 1) % breathingPhases.length;
+}
+
+function closeBreathingMode() {
+  window.clearInterval(breathingPhaseTimer);
+  breathingMode.hidden = true;
+  document.body.classList.remove("breathing-active");
+  calmButton.focus();
+}
+
+function openBreathingMode() {
+  breathingPhaseIndex = 0;
+  updateBreathingPhase();
+  breathingMode.hidden = false;
+  document.body.classList.add("breathing-active");
+  returnButton.focus();
+  breathingPhaseTimer = window.setInterval(updateBreathingPhase, 3000);
+}
+
+calmButton.addEventListener("click", openBreathingMode);
+returnButton.addEventListener("click", closeBreathingMode);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !breathingMode.hidden) closeBreathingMode();
 });
 
 noteInput.addEventListener("input", () => {

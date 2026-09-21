@@ -18,6 +18,7 @@
           <h1>Session check-in</h1>
         </div>
         <div class="topbar-actions">
+          <button class="calm-button" id="calmButton" type="button" aria-label="Open Calm Breathing mode" title="Open Calm Breathing mode"><span aria-hidden="true">◌</span> Calm</button>
           <button class="icon-button" id="themeButton" type="button" aria-label="Switch to light mode" title="Switch theme">☼</button>
           <button class="icon-button" id="resetButton" type="button" aria-label="Reset session" title="Reset session">↺</button>
         </div>
@@ -150,6 +151,18 @@
       <p class="footer-note" id="statusMessage" aria-live="polite">I'm proud of you for showing up for yourself.</p>
       <button class="reset-bottom" id="resetBottomButton" type="button">Reset session</button>
     </main>
+    <section class="breathing-mode" id="breathingMode" aria-labelledby="breathingHeading" aria-modal="true" role="dialog" hidden>
+      <div class="breathing-content">
+        <p class="eyebrow warm">A moment to reset</p>
+        <h2 id="breathingHeading">Calm Breathing</h2>
+        <div class="breathing-visual" aria-hidden="true">
+          <div class="breathing-orb"><span></span></div>
+        </div>
+        <p class="breathing-phase" id="breathingPhase" aria-live="polite">Breathe in</p>
+        <p class="breathing-cue">Follow the circle. Stay here for as long as you need.</p>
+        <button class="return-button" id="returnButton" type="button">Return to check-in</button>
+      </div>
+    </section>
     <script src="script.js"></script>
   </body>
 </html>
