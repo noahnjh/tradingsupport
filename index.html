@@ -169,18 +169,18 @@
     <section class="laugh-mode" id="laughMode" aria-labelledby="laughHeading" aria-live="polite" hidden>
       <div class="laugh-content">
         <p class="eyebrow warm">A tiny reset</p>
-        <h2 id="laughHeading">A little nonsense for your brain</h2>
-        <div class="laugh-stage" aria-hidden="true">
-          <div class="laugh-confetti"></div>
-          <div class="laugh-character">
-            <span class="laugh-eye laugh-eye-left"></span>
-            <span class="laugh-eye laugh-eye-right"></span>
-            <span class="laugh-mouth"><span class="laugh-tongue"></span></span>
+        <h2 id="laughHeading">A quick laugh</h2>
+        <div class="laugh-stage">
+          <div class="meme-frame">
+            <img id="memeImage" alt="" hidden />
+            <p class="meme-loading" id="memeLoading" role="status">Finding something silly...</p>
           </div>
-          <div class="laugh-floor"></div>
         </div>
-        <p class="laugh-caption" id="laughCaption">The market has been informed.</p>
-        <button class="return-button" id="laughReturnButton" type="button">Back to check-in</button>
+        <p class="laugh-caption" id="laughCaption">Fresh from the wholesome meme desk.</p>
+        <div class="laugh-actions">
+          <button class="refresh-button" id="refreshMemeButton" type="button"><span aria-hidden="true">↻</span> Refresh meme</button>
+          <button class="return-button" id="laughReturnButton" type="button">Back to check-in</button>
+        </div>
       </div>
     </section>
     <script src="script.js"></script>
