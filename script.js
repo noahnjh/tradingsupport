@@ -30,7 +30,7 @@ const reportStatus = document.querySelector("#reportStatus");
 let reportBlob;
 let reportObjectUrl;
 const moodGroups = ["arrival", "trade1", "trade2", "after"];
-const riskyEmotions = ["On edge", "Uncertain", "Anxious", "Frustrated", "Greedy", "Angry", "Disappointed", "Fearful", "Impatient", "Impulsive", "Revengeful", "Hesitant"];
+const riskyEmotions = ["On edge", "Uncertain", "Anxious", "Frustrated", "Greedy", "Angry", "Disappointed", "Fearful", "Impatient", "Impulsive", "Tired", "Distracted", "Revengeful", "Hesitant"];
 const emotionOptions = [
   "Focused", "Calm", "Confident", "Happy", "Patient", "On edge", "Uncertain", "Anxious", "Frustrated", "Greedy",
   "Angry", "Disappointed", "Fearful", "Impatient", "Impulsive", "Hopeful", "Tired", "Distracted", "Revengeful", "Hesitant"
