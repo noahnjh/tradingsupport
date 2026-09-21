@@ -149,16 +149,29 @@ themeButton.addEventListener("click", () => {
 });
 
 let breathingPhaseTimer;
+let breathingPhaseTransitionTimer;
 let breathingPhaseIndex = 0;
 const breathingPhases = ["Breathe in", "Hold", "Breathe out", "Rest"];
 
-function updateBreathingPhase() {
-  breathingPhase.textContent = breathingPhases[breathingPhaseIndex];
+function updateBreathingPhase(animate = true) {
+  window.clearTimeout(breathingPhaseTransitionTimer);
+  if (!animate) {
+    breathingPhase.textContent = breathingPhases[breathingPhaseIndex];
+    breathingPhase.classList.remove("is-changing");
+    breathingPhaseIndex = (breathingPhaseIndex + 1) % breathingPhases.length;
+    return;
+  }
+  breathingPhase.classList.add("is-changing");
+  breathingPhaseTransitionTimer = window.setTimeout(() => {
+    breathingPhase.textContent = breathingPhases[breathingPhaseIndex];
+    breathingPhase.classList.remove("is-changing");
+  }, 260);
   breathingPhaseIndex = (breathingPhaseIndex + 1) % breathingPhases.length;
 }
 
 function closeBreathingMode() {
   window.clearInterval(breathingPhaseTimer);
+  window.clearTimeout(breathingPhaseTransitionTimer);
   breathingMode.hidden = true;
   document.body.classList.remove("breathing-active");
   calmButton.focus();
@@ -166,7 +179,7 @@ function closeBreathingMode() {
 
 function openBreathingMode() {
   breathingPhaseIndex = 0;
-  updateBreathingPhase();
+  updateBreathingPhase(false);
   breathingMode.hidden = false;
   document.body.classList.add("breathing-active");
   returnButton.focus();
