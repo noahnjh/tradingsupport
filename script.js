@@ -4,9 +4,13 @@ const sessionOptions = document.querySelectorAll(".session-option");
 const tradeButtons = document.querySelectorAll(".trade-button");
 const themeButton = document.querySelector("#themeButton");
 const calmButton = document.querySelector("#calmButton");
+const laughButton = document.querySelector("#laughButton");
 const breathingMode = document.querySelector("#breathingMode");
 const breathingPhase = document.querySelector("#breathingPhase");
 const returnButton = document.querySelector("#returnButton");
+const laughMode = document.querySelector("#laughMode");
+const laughCaption = document.querySelector("#laughCaption");
+const laughReturnButton = document.querySelector("#laughReturnButton");
 const startButton = document.querySelector("#startButton");
 const breakButton = document.querySelector("#breakButton");
 const breakSuggestions = document.querySelector("#breakSuggestions");
@@ -175,8 +179,33 @@ function openBreathingMode() {
 
 calmButton.addEventListener("click", openBreathingMode);
 returnButton.addEventListener("click", closeBreathingMode);
+
+const sillyMoments = [
+  { animation: "boing", caption: "The market has been informed." },
+  { animation: "wobble", caption: "A very serious little dance." },
+  { animation: "zoomies", caption: "No trades were harmed in the making of this moment." }
+];
+
+function closeLaughMode() {
+  laughMode.hidden = true;
+  document.body.classList.remove("laugh-active");
+  laughButton.focus();
+}
+
+function openLaughMode() {
+  const moment = sillyMoments[Math.floor(Math.random() * sillyMoments.length)];
+  laughMode.className = `laugh-mode ${moment.animation}`;
+  laughCaption.textContent = moment.caption;
+  laughMode.hidden = false;
+  document.body.classList.add("laugh-active");
+  laughReturnButton.focus();
+}
+
+laughButton.addEventListener("click", openLaughMode);
+laughReturnButton.addEventListener("click", closeLaughMode);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !breathingMode.hidden) closeBreathingMode();
+  if (event.key === "Escape" && !laughMode.hidden) closeLaughMode();
 });
 
 noteInput.addEventListener("input", () => {
