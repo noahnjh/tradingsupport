@@ -43,7 +43,6 @@ button { color: inherit; }
 .eyebrow.warm { color: var(--accent); }
 h1, h2, p { margin-top: 0; }
 .topbar-actions { display: flex; gap: 6px; margin-left: auto; }
-.wellness-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .calm-button { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; min-height: 50px; padding: 13px 10px; border-radius: 8px; background: transparent; cursor: pointer; font-size: 13px; font-weight: 800; transition: .2s ease; }
 .calm-button { color: var(--green); border: 1px solid var(--green); }
 .calm-button span { font-size: 19px; line-height: 1; }
