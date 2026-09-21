@@ -64,7 +64,10 @@
       </section>
 
       <section class="session-actions" aria-label="Session actions">
-        <button class="calm-button" id="calmButton" type="button" aria-label="Open Calm Breathing mode" title="Open Calm Breathing mode"><span aria-hidden="true">◌</span> Calm Breathing</button>
+        <div class="wellness-buttons">
+          <button class="calm-button" id="calmButton" type="button" aria-label="Open Calm Breathing mode" title="Open Calm Breathing mode"><span aria-hidden="true">◌</span> Calm Breathing</button>
+          <button class="laugh-button" id="laughButton" type="button" aria-label="Play a random silly animation" title="Play a random silly animation"><span aria-hidden="true">☻</span> Laugh</button>
+        </div>
         <button class="primary-button" id="startButton" type="button" disabled>Start session</button>
         <button class="break-button" id="breakButton" type="button">Taking a break today</button>
         <div class="break-suggestions" id="breakSuggestions" hidden>
@@ -161,6 +164,19 @@
         <p class="breathing-phase" id="breathingPhase" aria-live="polite">Breathe in</p>
         <p class="breathing-cue">Follow the circle. Stay here for as long as you need.</p>
         <button class="return-button" id="returnButton" type="button">Return to check-in</button>
+      </div>
+    </section>
+    <section class="laugh-mode" id="laughMode" aria-labelledby="laughHeading" aria-live="polite" hidden>
+      <div class="laugh-content">
+        <p class="eyebrow warm">A tiny reset</p>
+        <h2 id="laughHeading">A little nonsense for your brain</h2>
+        <div class="laugh-stage" aria-hidden="true">
+          <div class="laugh-confetti"></div>
+          <div class="laugh-character"><span class="laugh-face">:D</span></div>
+          <div class="laugh-floor"></div>
+        </div>
+        <p class="laugh-caption" id="laughCaption">The market has been informed.</p>
+        <button class="return-button" id="laughReturnButton" type="button">Back to check-in</button>
       </div>
     </section>
     <script src="script.js"></script>
