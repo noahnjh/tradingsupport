@@ -156,6 +156,7 @@ themeButton.addEventListener("click", () => {
 let breathingPhaseTimer;
 let breathingPhaseIndex = 0;
 const breathingPhases = ["Breathe in", "Hold", "Breathe out", "Rest"];
+const breathingPhaseDurations = [4000, 3000, 4000, 3000];
 
 function updateBreathingPhase() {
   const activePhase = breathingPhases[breathingPhaseIndex];
@@ -165,10 +166,11 @@ function updateBreathingPhase() {
     step.setAttribute("aria-current", isActive ? "step" : "false");
   });
   breathingPhaseIndex = (breathingPhaseIndex + 1) % breathingPhases.length;
+  breathingPhaseTimer = window.setTimeout(updateBreathingPhase, breathingPhaseDurations[breathingPhaseIndex]);
 }
 
 function closeBreathingMode() {
-  window.clearInterval(breathingPhaseTimer);
+  window.clearTimeout(breathingPhaseTimer);
   breathingMode.hidden = true;
   document.body.classList.remove("breathing-active");
   calmButton.focus();
@@ -180,7 +182,6 @@ function openBreathingMode() {
   breathingMode.hidden = false;
   document.body.classList.add("breathing-active");
   returnButton.focus();
-  breathingPhaseTimer = window.setInterval(updateBreathingPhase, 3000);
 }
 
 calmButton.addEventListener("click", openBreathingMode);
