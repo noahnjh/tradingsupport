@@ -172,14 +172,16 @@ function updateBreathingPhase() {
 function closeBreathingMode() {
   window.clearTimeout(breathingPhaseTimer);
   breathingMode.hidden = true;
+  breathingMode.classList.remove("breathing-running");
   document.body.classList.remove("breathing-active");
   calmButton.focus();
 }
 
 function openBreathingMode() {
   breathingPhaseIndex = 0;
-  updateBreathingPhase();
   breathingMode.hidden = false;
+  breathingMode.classList.add("breathing-running");
+  updateBreathingPhase();
   document.body.classList.add("breathing-active");
   returnButton.focus();
 }
