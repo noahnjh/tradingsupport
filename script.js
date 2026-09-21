@@ -5,7 +5,7 @@ const tradeButtons = document.querySelectorAll(".trade-button");
 const themeButton = document.querySelector("#themeButton");
 const calmButton = document.querySelector("#calmButton");
 const breathingMode = document.querySelector("#breathingMode");
-const breathingPhase = document.querySelector("#breathingPhase");
+const breathingPhaseSteps = document.querySelectorAll("#breathingPhase .breathing-step");
 const returnButton = document.querySelector("#returnButton");
 const startButton = document.querySelector("#startButton");
 const breakButton = document.querySelector("#breakButton");
@@ -158,7 +158,12 @@ let breathingPhaseIndex = 0;
 const breathingPhases = ["Breathe in", "Hold", "Breathe out", "Rest"];
 
 function updateBreathingPhase() {
-  breathingPhase.textContent = breathingPhases[breathingPhaseIndex];
+  const activePhase = breathingPhases[breathingPhaseIndex];
+  breathingPhaseSteps.forEach((step) => {
+    const isActive = step.dataset.phase === activePhase;
+    step.classList.toggle("active", isActive);
+    step.setAttribute("aria-current", isActive ? "step" : "false");
+  });
   breathingPhaseIndex = (breathingPhaseIndex + 1) % breathingPhases.length;
 }
 
