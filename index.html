@@ -158,9 +158,16 @@
         <div class="breathing-visual" aria-hidden="true">
           <div class="breathing-orb"><span></span></div>
         </div>
-        <p class="breathing-phase" id="breathingPhase" aria-live="polite">Breathe in</p>
-        <p class="breathing-cue">Follow the circle. Stay here for as long as you need.</p>
-        <button class="return-button" id="returnButton" type="button">Return to check-in</button>
+        <div class="breathing-guidance">
+          <div class="breathing-phase" id="breathingPhase" aria-label="Breathing steps" aria-live="polite">
+            <span class="breathing-step" data-phase="Breathe in">Breathe in</span>
+            <span class="breathing-step" data-phase="Hold">Hold</span>
+            <span class="breathing-step" data-phase="Breathe out">Breathe out</span>
+            <span class="breathing-step" data-phase="Rest">Rest</span>
+          </div>
+          <p class="breathing-cue">Follow the circle. Stay here for as long as you need.</p>
+          <button class="return-button" id="returnButton" type="button">Return to check-in</button>
+        </div>
       </div>
     </section>
     <script src="script.js"></script>
