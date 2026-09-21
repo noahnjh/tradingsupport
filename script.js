@@ -30,10 +30,10 @@ const reportStatus = document.querySelector("#reportStatus");
 let reportBlob;
 let reportObjectUrl;
 const moodGroups = ["arrival", "trade1", "trade2", "after"];
-const riskyEmotions = ["Restless", "Uncertain", "Anxious", "Frustrated", "Greedy", "Angry", "Disappointed", "Fearful", "Impatient", "Revengeful", "Hesitant"];
+const riskyEmotions = ["On edge", "Uncertain", "Anxious", "Frustrated", "Greedy", "Angry", "Disappointed", "Fearful", "Impatient", "Impulsive", "Revengeful", "Hesitant"];
 const emotionOptions = [
-  "Focused", "Calm", "Confident", "Happy", "Patient", "Restless", "Uncertain", "Anxious", "Frustrated", "Greedy",
-  "Angry", "Disappointed", "Fearful", "Impatient", "Overconfident", "Hopeful", "Tired", "Distracted", "Revengeful", "Hesitant"
+  "Focused", "Calm", "Confident", "Happy", "Patient", "On edge", "Uncertain", "Anxious", "Frustrated", "Greedy",
+  "Angry", "Disappointed", "Fearful", "Impatient", "Impulsive", "Hopeful", "Tired", "Distracted", "Revengeful", "Hesitant"
 ];
 
 state.checks = state.checks || [false, false];
@@ -46,7 +46,12 @@ if (!state.sessionChoiceInitialized) {
 state.moods = state.moods || {};
 moodGroups.forEach((group) => {
   state.moods[group] = Array.isArray(state.moods[group]) ? state.moods[group] : state.moods[group] ? [state.moods[group]] : [];
-  state.moods[group] = state.moods[group].map((emotion) => emotion === "Bored" ? "Tired" : emotion);
+  state.moods[group] = state.moods[group].map((emotion) => {
+    if (emotion === "Bored") return "Tired";
+    if (emotion === "Restless") return "On edge";
+    if (emotion === "Overconfident") return "Impulsive";
+    return emotion;
+  });
 });
 state.trades = state.trades || {};
 state.setupRating = state.setupRating || "";
