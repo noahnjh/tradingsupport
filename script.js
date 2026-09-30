@@ -1,6 +1,8 @@
 const state = JSON.parse(localStorage.getItem("session-check-in") || "{}" );
 const checks = [document.querySelector("#ackButton"), document.querySelector("#newsButton"), document.querySelector("#htfButton")];
 const sessionOptions = document.querySelectorAll(".session-option");
+const directionAssets = document.querySelectorAll(".direction-asset");
+const confidenceLabels = ["Low", "Medium", "High"];
 const tradeButtons = document.querySelectorAll(".trade-button");
 const themeButton = document.querySelector("#themeButton");
 const calmButton = document.querySelector("#calmButton");
@@ -38,6 +40,11 @@ const emotionOptions = [
 
 state.checks = state.checks || [false, false];
 state.checks[2] = Boolean(state.checks[2]);
+state.directions = state.directions || {};
+["GC", "NQ"].forEach((asset) => {
+  state.directions[asset] = state.directions[asset] || { side: "", confidence: 2 };
+  state.directions[asset].confidence = Math.min(3, Math.max(1, Number(state.directions[asset].confidence) || 2));
+});
 if (!state.sessionChoiceInitialized) {
   state.session = "";
   state.sessionChoiceInitialized = true;
@@ -81,6 +88,16 @@ function render() {
     document.querySelector(`#${button.dataset.trade}Panel`).hidden = !active;
   });
   document.documentElement.dataset.theme = state.theme;
+  directionAssets.forEach((assetElement) => {
+    const asset = state.directions[assetElement.dataset.asset];
+    assetElement.querySelectorAll(".direction-option").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.direction === asset.side));
+    });
+    assetElement.querySelector(".confidence-slider").value = asset.confidence;
+    assetElement.querySelector(".confidence-value").textContent = confidenceLabels[asset.confidence - 1];
+  });
+  const directionsComplete = Object.values(state.directions).every((asset) => Boolean(asset.side));
+  document.querySelector("#directionItem").classList.toggle("complete", directionsComplete);
   themeButton.textContent = state.theme === "dark" ? "☼" : "☾";
   themeButton.setAttribute("aria-label", state.theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
   setupRating.hidden = !state.sessionStarted;
@@ -98,9 +115,9 @@ function render() {
   completeButton.setAttribute("aria-pressed", String(Boolean(state.sessionCompleted)));
   afterSession.hidden = !state.sessionCompleted;
   noteInput.value = state.note || "";
-  const completedChecks = state.checks.filter(Boolean).length;
-  routineCount.textContent = `${completedChecks} / 3`;
-  const readyToStart = completedChecks === 3 && state.moods.arrival.length > 0;
+  const completedChecks = state.checks.filter(Boolean).length + (directionsComplete ? 1 : 0);
+  routineCount.textContent = `${completedChecks} / 4`;
+  const readyToStart = completedChecks === 4 && state.moods.arrival.length > 0;
   startButton.disabled = !readyToStart || state.sessionStarted;
   startButton.textContent = state.sessionStarted ? "Session in progress" : "Start session";
   breakButton.textContent = state.takingBreak ? "Break noted for today" : "Taking a break today";
@@ -140,6 +157,19 @@ sessionOptions.forEach((button) => button.addEventListener("click", () => {
   saveState();
   render();
 }));
+
+directionAssets.forEach((assetElement) => {
+  assetElement.querySelectorAll(".direction-option").forEach((button) => button.addEventListener("click", () => {
+    state.directions[assetElement.dataset.asset].side = button.dataset.direction;
+    saveState();
+    render();
+  }));
+  assetElement.querySelector(".confidence-slider").addEventListener("input", (event) => {
+    state.directions[assetElement.dataset.asset].confidence = Number(event.currentTarget.value);
+    saveState();
+    render();
+  });
+});
 
 tradeButtons.forEach((button) => button.addEventListener("click", () => {
   state.activeTrade = state.activeTrade === button.dataset.trade ? "" : button.dataset.trade;
@@ -263,6 +293,7 @@ function createReportImage() {
   const lineHeight = 32;
   const sections = [
     ["Trading session", state.session || "Not selected"],
+    ["Direction confidence", ["GC", "NQ"].map((asset) => `${asset}: ${state.directions[asset].side || "Not selected"} / ${confidenceLabels[state.directions[asset].confidence - 1]}`).join("; ")],
     ["Arrival emotions", reportValue(state.moods.arrival)],
     ["Trade setup rating", state.setupRating || "Not rated"],
     ["After-session emotions", reportValue(state.moods.after)],
@@ -349,6 +380,7 @@ copyReportButton.addEventListener("click", copyReportImage);
 function resetSession() {
   localStorage.removeItem("session-check-in");
   state.checks = [false, false, false];
+  state.directions = { GC: { side: "", confidence: 2 }, NQ: { side: "", confidence: 2 } };
   state.session = "";
   state.sessionChoiceInitialized = true;
   state.moods = { arrival: [], trade1: [], trade2: [], after: [] };

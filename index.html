@@ -52,6 +52,38 @@
           <span class="check-box" aria-hidden="true">✓</span>
           <span class="check-copy"><strong>I've completed HTF analysis</strong><small>My higher-timeframe context is clear before I enter.</small></span>
         </button>
+        <div class="direction-item" id="directionItem">
+          <div class="direction-item-heading">
+            <span class="check-box" id="directionCheckBox" aria-hidden="true">✓</span>
+            <span class="check-copy"><strong>Direction Confidence Level</strong><small>Set a direction and confidence for both markets.</small></span>
+          </div>
+          <div class="direction-assets">
+            <div class="direction-asset" data-asset="GC">
+              <h3>GC</h3>
+              <div class="direction-options" role="group" aria-label="GC price direction">
+                <button class="direction-option" type="button" data-direction="LONG" aria-pressed="false">LONG</button>
+                <button class="direction-option" type="button" data-direction="SHORT" aria-pressed="false">SHORT</button>
+              </div>
+              <label class="confidence-control" for="gcConfidence">
+                <span>Confidence <output class="confidence-value" id="gcConfidenceValue" for="gcConfidence">Medium</output></span>
+                <input id="gcConfidence" class="confidence-slider" type="range" min="1" max="3" step="1" value="2" aria-label="GC confidence level" />
+                <span class="confidence-labels" aria-hidden="true"><span>Low</span><span>Medium</span><span>High</span></span>
+              </label>
+            </div>
+            <div class="direction-asset" data-asset="NQ">
+              <h3>NQ</h3>
+              <div class="direction-options" role="group" aria-label="NQ price direction">
+                <button class="direction-option" type="button" data-direction="LONG" aria-pressed="false">LONG</button>
+                <button class="direction-option" type="button" data-direction="SHORT" aria-pressed="false">SHORT</button>
+              </div>
+              <label class="confidence-control" for="nqConfidence">
+                <span>Confidence <output class="confidence-value" id="nqConfidenceValue" for="nqConfidence">Medium</output></span>
+                <input id="nqConfidence" class="confidence-slider" type="range" min="1" max="3" step="1" value="2" aria-label="NQ confidence level" />
+                <span class="confidence-labels" aria-hidden="true"><span>Low</span><span>Medium</span><span>High</span></span>
+              </label>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="feelings" aria-labelledby="feelingsHeading">
